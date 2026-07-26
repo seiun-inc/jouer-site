@@ -10,7 +10,11 @@ for (const f of pages) {
     [!/プロ雀士のコーチ/.test(html), '旧人称「プロ雀士のコーチ」が残存(→トレーナー)'],
     [!/id="snd"/.test(html), '削除済みの効果音ボタンが復活している'],
     [!/%%(CSS|JS|LOGO|PHOTO)%%/.test(html), '未解決のテンプレートトークン'],
+    [!/マンツーマン/.test(html), '「マンツーマン」表記が残存'],
   ];
+  if (f === 'price.html') {
+    checks.push([!/¥3,850\s*\/\s*卓/.test(html), '旧コーチング料表記(¥3,850/卓)が残存']);
+  }
   for (const [pass, msg] of checks) {
     if (!pass) { console.error(`NG ${f}: ${msg}`); ok = false; }
   }
