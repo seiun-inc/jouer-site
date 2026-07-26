@@ -43,3 +43,15 @@
 
 - 実装ワーカー: Sonnet で十分(このファイルと指示書に従うこと)
 - 法務・料金体系・デザイン判断が必要になったら実装を止めてユーザーに確認する
+
+## 公開前チェックリスト
+
+正式公開の直前に、以下を確認・実施する:
+
+- [ ] 全5ページの `<meta name="robots" content="noindex,nofollow">`(`<!-- ▼▼ 正式公開時にこの1行を削除 ▼▼ -->` マーカー付き)を削除
+- [ ] price.html の STORES予約URL設定(5キー:`aiseki_beg`/`aiseki_mid`/`aiseki_adv`/`coach`/`camp`)にURLを差し込み
+- [ ] price.html の `PHONE_TEL`(電話番号)・`LINE_URL`(公式LINE URL)を実物に差し替え
+- [ ] 問い合わせ先(メール・Instagram)を実物化
+- [ ] ドリンク単品価格(現在¥330〜・仮)を確定
+- [ ] スタッフ紹介・店内写真を実物に差し替え
+- [ ] 各ページの `og:image` のドメイン(現在 `https://your-domain.example/logo.png` の仮URL)を公開ドメインに確認・差し替え
