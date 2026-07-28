@@ -158,6 +158,10 @@ h2{font-family:var(--disp);font-weight:600;font-size:clamp(17px,2.4vw,21px);lett
 h3{font-family:var(--disp);font-weight:600;font-size:17.5px;letter-spacing:.06em}
 .lead{max-width:640px;color:#4a4145;font-size:14.5px}
 .sec-head.ctr .lead{margin:14px auto 0}
+.no-chips{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin:16px 0 18px}
+.no-chip{position:relative;display:inline-block;padding:9px 20px;border:1px solid var(--hair);background:#fff;font-family:var(--disp);font-weight:600;font-size:13px;letter-spacing:.1em;color:var(--ink)}
+.no-chip::before{content:"";position:absolute;inset:4px;border:1px solid var(--pink-mid);pointer-events:none}
+.no-chip::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(to top right,transparent calc(50% - 1.2px),var(--pink-mid) calc(50% - 1.2px),var(--pink-mid) calc(50% + 1.2px),transparent calc(50% + 1.2px))}
 
 /* ══ hero ══ */
 .hero{position:relative;overflow:hidden;background:var(--pink-bg);padding:108px 0 100px;border-bottom:1px solid var(--line)}
@@ -488,6 +492,10 @@ footer a{color:#f5eef1}
 /* ══ v8: CTAの正式ロゴ ══ */
 .cta-band .cta-logo{height:82px;width:auto;margin:0 auto 20px;display:block;animation:breath 6s ease-in-out infinite}
 @media(max-width:480px){.cta-band .cta-logo{height:64px}}
+@media(max-width:480px){
+  .no-chips{gap:6px}
+  .no-chip{padding:7px 10px;font-size:11px;letter-spacing:.04em}
+}
 
 /* ══ 予約枠診断(レコメンダー) ══ */
 .ask-opts.lv{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -497,6 +505,14 @@ footer a{color:#f5eef1}
 .ask-opts.lv button.sel b,.ask-opts.lv button.sel span{color:#fff}
 #q3block.dis{opacity:.4;pointer-events:none}
 .ask-note{font-size:12px;color:var(--gray);margin-top:16px;line-height:1.9}
+.rpt-shortcut{margin:18px 0 24px;padding:14px 18px;border:1px solid var(--line)}
+.rpt-ttl{font-family:var(--disp);font-weight:600;font-size:13px;letter-spacing:.06em;color:#4a4145}
+.rpt-note{font-size:11.5px;color:var(--gray);margin-top:2px}
+.rpt-btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.rpt-btn{display:inline-block;font-family:var(--disp);font-size:12px;letter-spacing:.04em;color:var(--rose-deep);background:#fff;border:1px solid var(--pink-mid);border-radius:999px;padding:6px 15px;text-decoration:none;cursor:pointer;transition:background .2s}
+.rpt-btn:hover{background:var(--pink-soft)}
+.rpt-btn.dis{color:var(--gray);border-color:var(--line);cursor:not-allowed;pointer-events:none}
+.rpt-foot{font-size:11.5px;color:var(--gray);margin-top:10px}
 .ak-card{margin-top:22px;border-top:1px solid var(--line);padding-top:20px}
 .ak-tag{font-family:var(--disp);font-weight:600;font-size:12px;letter-spacing:.2em;color:var(--rose-deep)}
 .ak-name{font-family:var(--disp);font-weight:700;font-size:19px;letter-spacing:.08em;margin-top:4px}
