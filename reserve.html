@@ -39,11 +39,9 @@
     <div style="max-width:640px;margin:0 auto">
       <h2 style="text-align:center;margin-bottom:22px" data-reveal>ご予約</h2>
 
-      <p class="rsv-repeat" data-reveal>2回目以降の方はこちら:<a href="#" data-store="aiseki_beg">初級</a> / <a href="#" data-store="aiseki_mid">中級</a> / <a href="#" data-store="aiseki_adv">上級</a> / <a href="#" data-store="coach">トレーナー付き</a> / <a href="#" data-store="aiseki_create">新しい会をつくる</a></p>
-
       <div class="rsv-progress" id="rsvProgress" aria-hidden="true"></div>
 
-      <div class="ask frp frp-soft" data-reveal id="rsvStage"><i class="cnr cnr1" aria-hidden="true"><svg viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3 27 C3 13.7 13.7 3 27 3" stroke="#C24A73" stroke-width="1.4"/><path d="M9 27 C9 17 17 9 27 9" stroke="#C24A73" stroke-width="1"/><ellipse cx="5.5" cy="2.9" rx="1.1" ry="1.9" transform="rotate(0 5.5 5.5)" fill="#C24A73"/><ellipse cx="5.5" cy="2.9" rx="1.1" ry="1.9" transform="rotate(72 5.5 5.5)" fill="#C24A73"/><ellipse cx="5.5" cy="2.9" rx="1.1" ry="1.9" transform="rotate(144 5.5 5.5)" fill="#C24A73"/><ellipse cx="5.5" cy="2.9" rx="1.1" ry="1.9" transform="rotate(216 5.5 5.5)" fill="#C24A73"/><ellipse cx="5.5" cy="2.9" rx="1.1" ry="1.9" transform="rotate(288 5.5 5.5)" fill="#C24A73"/><circle cx="5.5" cy="5.5" r=".9" fill="#C24A73"/></svg></i><i class="cnr cnr2" aria-hidden="true"><svg viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3 27 C3 13.7 13.7 3 27 3" stroke="#C24A73" stroke-width="1.4"/><path d="M9 27 C9 17 17 9 27 9" stroke="#C24A73" stroke-width="1"/><ellipse cx="5.5" cy="2.9" rx="1.1" ry="1.9" transform="rotate(0 5.5 5.5)" fill="#C24A73"/><ellipse cx="5.5" cy="2.9" rx="1.1" ry="1.9" transform="rotate(72 5.5 5.5)" fill="#C24A73"/><ellipse cx="5.5" cy="2.9" rx="1.1" ry="1.9" transform="rotate(144 5.5 5.5)" fill="#C24A73"/><ellipse cx="5.5" cy="2.9" rx="1.1" ry="1.9" transform="rotate(216 5.5 5.5)" fill="#C24A73"/><ellipse cx="5.5" cy="2.9" rx="1.1" ry="1.9" transform="rotate(288 5.5 5.5)" fill="#C24A73"/><circle cx="5.5" cy="5.5" r=".9" fill="#C24A73"/></svg></i><i class="cnr cnr3" aria-hidden="true"><svg viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3 27 C3 13.7 13.7 3 27 3" stroke="#C24A73" stroke-width="1.4"/><path d="M9 27 C9 17 17 9 27 9" stroke="#C24A73" stroke-width="1"/><ellipse cx="5.5" cy="2.9" rx="1.1" ry="1.9" transform="rotate(0 5.5 5.5)" fill="#C24A73"/><ellipse cx="5.5" cy="2.9" rx="1.1" ry="1.9" transform="rotate(72 5.5 5.5)" fill="#C24A73"/><ellipse cx="5.5" cy="2.9" rx="1.1" ry="1.9" transform="rotate(144 5.5 5.5)" fill="#C24A73"/><ellipse cx="5.5" cy="2.9" rx="1.1" ry="1.9" transform="rotate(216 5.5 5.5)" fill="#C24A73"/><ellipse cx="5.5" cy="2.9" rx="1.1" ry="1.9" transform="rotate(288 5.5 5.5)" fill="#C24A73"/><circle cx="5.5" cy="5.5" r=".9" fill="#C24A73"/></svg></i><i class="cnr cnr4" aria-hidden="true"><svg viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3 27 C3 13.7 13.7 3 27 3" stroke="#C24A73" stroke-width="1.4"/><path d="M9 27 C9 17 17 9 27 9" stroke="#C24A73" stroke-width="1"/><ellipse cx="5.5" cy="2.9" rx="1.1" ry="1.9" transform="rotate(0 5.5 5.5)" fill="#C24A73"/><ellipse cx="5.5" cy="2.9" rx="1.1" ry="1.9" transform="rotate(72 5.5 5.5)" fill="#C24A73"/><ellipse cx="5.5" cy="2.9" rx="1.1" ry="1.9" transform="rotate(144 5.5 5.5)" fill="#C24A73"/><ellipse cx="5.5" cy="2.9" rx="1.1" ry="1.9" transform="rotate(216 5.5 5.5)" fill="#C24A73"/><ellipse cx="5.5" cy="2.9" rx="1.1" ry="1.9" transform="rotate(288 5.5 5.5)" fill="#C24A73"/><circle cx="5.5" cy="5.5" r=".9" fill="#C24A73"/></svg></i>
+      <div data-reveal id="rsvStage">
         <div id="rsvBody"></div>
       </div>
     </div>
@@ -54,11 +52,14 @@
 (function(){
 /* ▼▼ 編集OK:STORES予約URL・連絡先 ▼▼ */
 var STORES={
-  aiseki_beg:'https://jouermahjongsalonshi.stores.jp/reserve/honten-umts0g/4476109#pageContent',  /* 相席 初級(開催予定の会に参加) */
-  aiseki_mid:'https://jouermahjongsalonshi.stores.jp/reserve/honten-umts0g/4858901#pageContent',  /* 相席 中級(開催予定の会に参加) */
-  aiseki_adv:'https://jouermahjongsalonshi.stores.jp/reserve/honten-umts0g/2841471#pageContent',  /* 相席 上級(開催予定の会に参加) */
-  aiseki_create:'https://jouermahjongsalonshi.stores.jp/reserve/honten-umts0g/1021188#pageContent', /* 相席(新しい会をつくる・帯共通) */
-  coach:'https://jouermahjongsalonshi.stores.jp/reserve/honten-umts0g/4964607#pageContent',       /* トレーナー付きレッスン(お友だちと) */
+  aiseki_beg:'https://jouermahjongsalonshi.stores.jp/reserve/honten-umts0g/4476109#pageContent',  /* おひとり参加 初級(開催予定の会に参加) */
+  aiseki_mid:'https://jouermahjongsalonshi.stores.jp/reserve/honten-umts0g/4858901#pageContent',  /* おひとり参加 中級(開催予定の会に参加) */
+  aiseki_adv:'https://jouermahjongsalonshi.stores.jp/reserve/honten-umts0g/2841471#pageContent',  /* おひとり参加 上級(開催予定の会に参加) */
+  aiseki_create_beg:'', /* 会をつくる(初級選択済み)※URL発行待ち */
+  aiseki_create_mid:'', /* 会をつくる(中級選択済み)※URL発行待ち */
+  aiseki_create_adv:'', /* 会をつくる(上級選択済み)※URL発行待ち */
+  aiseki_create:'https://jouermahjongsalonshi.stores.jp/reserve/honten-umts0g/1021188#pageContent', /* 会をつくる(共通・フォールバック) */
+  coach:'https://jouermahjongsalonshi.stores.jp/reserve/honten-umts0g/4964607#pageContent',       /* お友だちとレッスン */
   camp:''  /* 徹マンCAMP(URL発行待ち・空欄=準備中表示) */
 };
 var PHONE_TEL='tel:0000000000';  /* 仮:電話番号(未確定) */
@@ -75,84 +76,115 @@ var QDATA={
     {v:'trainer',label:'トレーナーと一緒に麻雀を学びたい'},
     {v:'set',label:'トレーナーなしで、卓だけ使いたい(セット利用)'}
   ]},
-  '15':{num:'Q1.5',text:'どなたといらっしゃいますか?',opts:[
+  '2':{num:'Q2',text:'どなたといらっしゃいますか?',opts:[
     {v:'solo',label:'ひとりで'},
     {v:'multi',label:'お友だちと(2名〜4名)'}
   ]},
-  '2':{num:'Q2',text:'麻雀のプレイ経験について教えてください',opts:[
+  '3':{num:'Q3',text:'麻雀のプレイ経験について教えてください',opts:[
     {v:'none',label:'全くやったことがない'},
     {v:'app',label:'アプリでは遊んだことがある'},
     {v:'tile',label:'実際の麻雀牌を使って遊んだことがある'}
   ]},
-  '3':{num:'Q3',text:'アプリではどの程度遊んでいますか?',opts:[
+  '4':{num:'Q4',text:'アプリではどの程度遊んでいますか?',opts:[
     {v:'noname',label:'牌の名前がわからない'},
     {v:'vague',label:'何度か遊んだが、曖昧なルールが多い'},
     {v:'nosupport',label:'よく遊ぶが、アプリのサポートがないとあがれない'},
     {v:'firstreal',label:'ルールは完全に理解しているが、実際の牌で遊ぶのは初めて'}
   ]},
-  '4':{num:'Q4',text:'どの牌が来たらアガリか、サポートなしでは分からない?',opts:[
+  '5':{num:'Q5',text:'どの牌が来たらアガリか、サポートなしでは分からない?',opts:[
     {v:'yes',label:'はい'},
     {v:'no',label:'いいえ'}
   ]},
-  '5':{num:'Q5',text:'雀荘ではどのように遊びますか?',opts:[
+  '6':{num:'Q6',text:'雀荘ではどのように遊びますか?',opts:[
     {v:'fs',label:'友人のサポートがあれば遊べる'},
     {v:'nfs',label:'友人のサポートがなくても遊べる'},
     {v:'free',label:'フリーで1人で雀荘に行ける'}
   ]}
 };
+var RDATA={
+  'r1':{num:'R1',text:'どなたといらっしゃいますか?',opts:[
+    {v:'solo',label:'ひとりで'},
+    {v:'multi',label:'お友だちと(2名〜4名)'}
+  ]},
+  'r2':{num:'R2',text:'あなたの認定ランク(レベル帯)は?',opts:[
+    {v:'初級',label:'初級'},
+    {v:'中級',label:'中級'},
+    {v:'上級',label:'上級'}
+  ]}
+};
 
-var path=[]; /* [{k,v,label}, ...] 回答の履歴(戻る・リセットに使用) */
+var entryMode=null; /* null(入口選択) | 'first' | 'repeat' */
+var path=[]; /* [{k,v,label}, ...] 現在のモード内での回答履歴(戻る・リセットに使用) */
 
-function deriveState(){
-  var s={q1:null,q15:null,q2:null,q3:null,q4:null,q5:null};
+function deriveFirstState(){
+  var s={q1:null,q2:null,q3:null,q4:null,q5:null,q6:null};
   path.forEach(function(p){ s['q'+p.k]=p.v; });
   return s;
 }
-function nextQ(state){
-  if(!state.q1)return '1';
-  if(state.q1==='set')return null;
-  if(!state.q15)return '15';
-  if(state.q15==='multi')return null;
-  if(!state.q2)return '2';
-  if(state.q2==='none')return null;
-  if(state.q2==='app'){
-    if(!state.q3)return '3';
-    if(state.q3==='noname'||state.q3==='vague')return null;
-    if(state.q3==='nosupport')return state.q4?null:'4';
-    if(state.q3==='firstreal')return null;
+function nextQFirst(s){
+  if(!s.q1)return '1';
+  if(s.q1==='set')return null;
+  if(!s.q2)return '2';
+  if(s.q2==='multi')return null;
+  if(!s.q3)return '3';
+  if(s.q3==='none')return null;
+  if(s.q3==='app'){
+    if(!s.q4)return '4';
+    if(s.q4==='noname'||s.q4==='vague')return null;
+    if(s.q4==='nosupport')return s.q5?null:'5';
+    if(s.q4==='firstreal')return null;
   }
-  if(state.q2==='tile'){
-    if(!state.q5)return '5';
-    if(state.q5==='fs')return state.q4?null:'4';
+  if(s.q3==='tile'){
+    if(!s.q6)return '6';
+    if(s.q6==='fs')return s.q5?null:'5';
     return null;
   }
   return null;
 }
-function terminal(state){
-  if(state.q1==='set')return {type:'phone'};
-  if(state.q1!=='trainer')return null;
-  if(state.q15==='multi')return {type:'coach'};
-  if(state.q15!=='solo')return null;
-  if(state.q2==='none')return {type:'aiseki',band:'初級'};
-  if(state.q2==='app'){
-    if(state.q3==='noname'||state.q3==='vague')return {type:'aiseki',band:'初級'};
-    if(state.q3==='nosupport'&&state.q4==='yes')return {type:'aiseki',band:'初級'};
-    if(state.q3==='nosupport'&&state.q4==='no')return {type:'aiseki',band:'中級'};
-    if(state.q3==='firstreal')return {type:'aiseki',band:'上級'};
+function terminalFirst(s){
+  if(s.q1==='set')return {type:'phone'};
+  if(s.q1!=='trainer')return null;
+  if(s.q2==='multi')return {type:'coach'};
+  if(s.q2!=='solo')return null;
+  if(s.q3==='none')return {type:'aiseki',band:'初級'};
+  if(s.q3==='app'){
+    if(s.q4==='noname'||s.q4==='vague')return {type:'aiseki',band:'初級'};
+    if(s.q4==='nosupport'&&s.q5==='yes')return {type:'aiseki',band:'初級'};
+    if(s.q4==='nosupport'&&s.q5==='no')return {type:'aiseki',band:'中級'};
+    if(s.q4==='firstreal')return {type:'aiseki',band:'上級'};
     return null;
   }
-  if(state.q2==='tile'){
-    if(state.q5==='fs'&&state.q4==='yes')return {type:'aiseki',band:'初級'};
-    if(state.q5==='fs'&&state.q4==='no')return {type:'aiseki',band:'中級'};
-    if(state.q5==='nfs'||state.q5==='free')return {type:'aiseki',band:'上級'};
+  if(s.q3==='tile'){
+    if(s.q6==='fs'&&s.q5==='yes')return {type:'aiseki',band:'初級'};
+    if(s.q6==='fs'&&s.q5==='no')return {type:'aiseki',band:'中級'};
+    if(s.q6==='nfs'||s.q6==='free')return {type:'aiseki',band:'上級'};
     return null;
   }
+  return null;
+}
+function deriveRepeatState(){
+  var s={r1:null,r2:null};
+  path.forEach(function(p){ s[p.k]=p.v; });
+  return s;
+}
+function nextQRepeat(s){
+  if(!s.r1)return 'r1';
+  if(s.r1==='multi')return null;
+  if(!s.r2)return 'r2';
+  return null;
+}
+function terminalRepeat(s){
+  if(s.r1==='multi')return {type:'coach'};
+  if(s.r1!=='solo')return null;
+  if(s.r2)return {type:'aiseki',band:s.r2};
   return null;
 }
 
 function gemSvg(cls){
   return '<svg class="'+cls+'" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><polygon points="12,1.5 19,8 12,22.5 5,8" fill="#F09EC2"/><polygon points="12,1.5 15.8,8 12,12.5 8.2,8" fill="#FBD3E4"/><polygon points="5,8 8.2,8 12,12.5 12,22.5" fill="#E27DA4"/><polygon points="19,8 15.8,8 12,12.5" fill="#F7BAD4"/><polygon points="12,1.5 8.2,8 5,8" fill="#F4AACB"/><polygon points="12,1.5 15.8,8 19,8" fill="#E890B4"/><polygon points="12,1.5 19,8 12,22.5 5,8" fill="none" stroke="#C9A24B" stroke-width="0.9" stroke-linejoin="round"/><circle cx="9.7" cy="6.2" r="1.1" fill="#fff" opacity=".95"/></svg>';
 }
+var CNR='<i class="cnr cnr1" aria-hidden="true"><svg viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3 27 C3 13.7 13.7 3 27 3" stroke="#C24A73" stroke-width="1.4"/><path d="M9 27 C9 17 17 9 27 9" stroke="#C24A73" stroke-width="1"/><ellipse cx="5.5" cy="2.9" rx="1.1" ry="1.9" transform="rotate(0 5.5 5.5)" fill="#C24A73"/><ellipse cx="5.5" cy="2.9" rx="1.1" ry="1.9" transform="rotate(72 5.5 5.5)" fill="#C24A73"/><ellipse cx="5.5" cy="2.9" rx="1.1" ry="1.9" transform="rotate(144 5.5 5.5)" fill="#C24A73"/><ellipse cx="5.5" cy="2.9" rx="1.1" ry="1.9" transform="rotate(216 5.5 5.5)" fill="#C24A73"/><ellipse cx="5.5" cy="2.9" rx="1.1" ry="1.9" transform="rotate(288 5.5 5.5)" fill="#C24A73"/><circle cx="5.5" cy="5.5" r=".9" fill="#C24A73"/></svg></i><i class="cnr cnr2" aria-hidden="true"><svg viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3 27 C3 13.7 13.7 3 27 3" stroke="#C24A73" stroke-width="1.4"/><path d="M9 27 C9 17 17 9 27 9" stroke="#C24A73" stroke-width="1"/><ellipse cx="5.5" cy="2.9" rx="1.1" ry="1.9" transform="rotate(0 5.5 5.5)" fill="#C24A73"/><ellipse cx="5.5" cy="2.9" rx="1.1" ry="1.9" transform="rotate(72 5.5 5.5)" fill="#C24A73"/><ellipse cx="5.5" cy="2.9" rx="1.1" ry="1.9" transform="rotate(144 5.5 5.5)" fill="#C24A73"/><ellipse cx="5.5" cy="2.9" rx="1.1" ry="1.9" transform="rotate(216 5.5 5.5)" fill="#C24A73"/><ellipse cx="5.5" cy="2.9" rx="1.1" ry="1.9" transform="rotate(288 5.5 5.5)" fill="#C24A73"/><circle cx="5.5" cy="5.5" r=".9" fill="#C24A73"/></svg></i><i class="cnr cnr3" aria-hidden="true"><svg viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3 27 C3 13.7 13.7 3 27 3" stroke="#C24A73" stroke-width="1.4"/><path d="M9 27 C9 17 17 9 27 9" stroke="#C24A73" stroke-width="1"/><ellipse cx="5.5" cy="2.9" rx="1.1" ry="1.9" transform="rotate(0 5.5 5.5)" fill="#C24A73"/><ellipse cx="5.5" cy="2.9" rx="1.1" ry="1.9" transform="rotate(72 5.5 5.5)" fill="#C24A73"/><ellipse cx="5.5" cy="2.9" rx="1.1" ry="1.9" transform="rotate(144 5.5 5.5)" fill="#C24A73"/><ellipse cx="5.5" cy="2.9" rx="1.1" ry="1.9" transform="rotate(216 5.5 5.5)" fill="#C24A73"/><ellipse cx="5.5" cy="2.9" rx="1.1" ry="1.9" transform="rotate(288 5.5 5.5)" fill="#C24A73"/><circle cx="5.5" cy="5.5" r=".9" fill="#C24A73"/></svg></i><i class="cnr cnr4" aria-hidden="true"><svg viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3 27 C3 13.7 13.7 3 27 3" stroke="#C24A73" stroke-width="1.4"/><path d="M9 27 C9 17 17 9 27 9" stroke="#C24A73" stroke-width="1"/><ellipse cx="5.5" cy="2.9" rx="1.1" ry="1.9" transform="rotate(0 5.5 5.5)" fill="#C24A73"/><ellipse cx="5.5" cy="2.9" rx="1.1" ry="1.9" transform="rotate(72 5.5 5.5)" fill="#C24A73"/><ellipse cx="5.5" cy="2.9" rx="1.1" ry="1.9" transform="rotate(144 5.5 5.5)" fill="#C24A73"/><ellipse cx="5.5" cy="2.9" rx="1.1" ry="1.9" transform="rotate(216 5.5 5.5)" fill="#C24A73"/><ellipse cx="5.5" cy="2.9" rx="1.1" ry="1.9" transform="rotate(288 5.5 5.5)" fill="#C24A73"/><circle cx="5.5" cy="5.5" r=".9" fill="#C24A73"/></svg></i>';
+
 function renderProgress(count){
   var max=5,html='';
   for(var i=1;i<=max;i++){ html+=gemSvg(i<=count?'on':''); }
@@ -161,95 +193,139 @@ function renderProgress(count){
 function sendGAS(t){
   if(!GAS_URL)return;
   try{
-    var L={q1:'',q15:'',q2:'',q3:'',q4:'',q5:''};
-    path.forEach(function(p){ L['q'+p.k]=p.label; });
-    var payload={q1:L.q1,q15:L.q15,q2:L.q2,q3:L.q3,q4:L.q4,q5:L.q5,band:t.band||'',plan:t.type==='phone'?'set':t.type};
+    var payload={q1:'',q2:'',q3:'',q4:'',q5:'',q6:''};
+    if(entryMode==='first'){
+      path.forEach(function(p){ payload['q'+p.k]=p.label; });
+    }
+    payload.band=t.band||'';
+    payload.plan=t.type==='phone'?'set':t.type;
+    payload.entry=entryMode;
     fetch(GAS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(payload)}).catch(function(){});
   }catch(e){}
 }
 function backLinkHtml(){
-  return path.length?'<a class="rsv-back" href="#" id="rsvBack">‹ 前の質問に戻る</a>':'';
+  return entryMode?'<a class="rsv-back" href="#" id="rsvBack">‹ 前の質問に戻る</a>':'';
 }
-function renderQuestion(qk){
+function goBack(e){
+  e.preventDefault();
+  if(path.length){ path.pop(); } else { entryMode=null; }
+  transitionRender();
+}
+function goReset(e){
+  e.preventDefault();
+  path=[];
+  entryMode=null;
+  transitionRender();
+}
+function renderEntry(){
+  renderProgress(0);
+  var html=
+    '<div class="rsv-entry">'+
+      '<div class="frp frp-soft rsv-entry-card">'+CNR+
+        '<p class="rsv-entry-ttl">はじめての方・レベル診断がまだの方</p>'+
+        '<button type="button" class="btn btn-fill" data-entry="first">質問に答えて予約ページをさがす</button>'+
+      '</div>'+
+      '<div class="frp frp-soft rsv-entry-card">'+CNR+
+        '<p class="rsv-entry-ttl">2回目以降の方(ランク認定済みの方)</p>'+
+        '<button type="button" class="btn btn-fill" data-entry="repeat">認定ランクで予約する</button>'+
+      '</div>'+
+    '</div>';
+  var body=document.getElementById('rsvBody');
+  body.innerHTML=html;
+  body.querySelectorAll('[data-entry]').forEach(function(b){
+    b.addEventListener('click',function(){
+      entryMode=b.getAttribute('data-entry');
+      transitionRender();
+    });
+  });
+}
+function renderQuestion(qk,data,noteHtml){
   renderProgress(path.length);
-  var q=QDATA[qk];
+  var q=data[qk];
   var optsHtml=q.opts.map(function(o){
     return '<button type="button" data-v="'+o.v+'">'+o.label+'</button>';
   }).join('');
-  var noteHtml='';
-  if(qk==='15'){
-    noteHtml='<p class="ask-note" style="margin-top:16px">※男性を含むグループは貸切のみのご案内です(<a href="index.html#charter">お問い合わせ</a>へ)。</p>';
-  }
-  var html=
+  var html='<div class="frp frp-soft ask">'+CNR+
     '<p class="rsv-qnum">'+q.num+'</p>'+
     '<p class="rsv-qtext">'+q.text+'</p>'+
     '<div class="ask-opts stack" data-q="'+qk+'">'+optsHtml+'</div>'+
-    noteHtml+
+    (noteHtml||'')+
+    '</div>'+
     backLinkHtml();
   var body=document.getElementById('rsvBody');
   body.innerHTML=html;
-  body.querySelectorAll('button').forEach(function(b){
+  body.querySelectorAll('button[data-v]').forEach(function(b){
     b.addEventListener('click',function(){
       path.push({k:qk,v:b.getAttribute('data-v'),label:b.textContent.trim()});
       transitionRender();
     });
   });
   var back=document.getElementById('rsvBack');
-  if(back){
-    back.addEventListener('click',function(e){
-      e.preventDefault();
-      path.pop();
-      transitionRender();
-    });
-  }
+  if(back){ back.addEventListener('click',goBack); }
 }
 function renderResult(t){
   renderProgress(path.length);
   var lineFoot='<p class="ask-note" style="text-align:center;margin-top:22px">迷ったら、<a href="'+(LINE_URL||'#')+'" target="_blank" rel="noopener">公式LINE</a>でそのままご相談ください</p>';
   var resetLink='<p style="text-align:center;margin-top:10px"><a class="rsv-back" href="#" id="rsvReset">もう一度最初から</a></p>';
-  var html='';
+  var inner='';
   if(t.type==='phone'){
-    html+='<p class="ak-name">卓のみのご利用</p>';
-    html+='<p class="ak-desc">卓のみのご利用は、お電話または公式LINEで承ります。</p>';
-    html+='<div class="ak-cta"><a class="btn" href="'+PHONE_TEL+'">お電話で相談する</a> <a class="btn btn-fill" href="'+(LINE_URL||'#')+'" target="_blank" rel="noopener">公式LINEで相談する</a></div>';
+    inner+='<p class="ak-name">卓のみのご利用</p>';
+    inner+='<p class="ak-desc">卓のみのご利用は、お電話または公式LINEで承ります。</p>';
+    inner+='<div class="ak-cta"><a class="btn" href="'+PHONE_TEL+'">お電話で相談する</a> <a class="btn btn-fill" href="'+(LINE_URL||'#')+'" target="_blank" rel="noopener">公式LINEで相談する</a></div>';
   }else if(t.type==='coach'){
     var urlC=STORES.coach;
-    html+='<p class="ak-name">トレーナー付きレッスン</p>';
-    html+='<p class="ak-desc">お友だちの卓に、専属トレーナーが1名つきます。レベルはご予約時のアンケートでお聞きします。</p>';
-    html+='<p class="ak-price">1卓 ¥6,600/1時間・4名なら¥1,650/1人</p>';
-    html+='<div class="ak-cta">'+(urlC?('<a class="btn btn-fill" href="'+urlC+'" target="_blank" rel="noopener">予約ページへすすむ</a>'):'<span class="ak-soon">この枠の予約ページは準備中です。公開まで少々お待ちください。</span>')+'</div>';
+    inner+='<p class="ak-name">お友だちとレッスン</p>';
+    inner+='<p class="ak-desc">お友だちの卓に、専属トレーナーが1名つきます。レベルはご予約時のアンケートでお聞きします。</p>';
+    inner+='<p class="ak-price">1卓 ¥6,600/1時間・4名なら¥1,650/1人</p>';
+    inner+='<div class="ak-cta">'+(urlC?('<a class="btn btn-fill" href="'+urlC+'" target="_blank" rel="noopener">予約ページへすすむ</a>'):'<span class="ak-soon">この枠の予約ページは準備中です。公開まで少々お待ちください。</span>')+'</div>';
   }else{
     var urlA=STORES['aiseki_'+BAND_KEY[t.band]];
-    var urlCreate=STORES.aiseki_create;
+    var urlCreate=STORES['aiseki_create_'+BAND_KEY[t.band]]||STORES.aiseki_create;
     var createLink=urlCreate?('<a href="'+urlCreate+'" target="_blank" rel="noopener">新しい会をつくって</a>'):'新しい会をつくって(準備中)';
-    html+='<p class="ak-name">'+gemSvg('rsv-gem')+'あなたは【'+t.band+'】スタートです</p>';
-    html+='<p class="ak-desc">ひとりで来ても、同じレベルの仲間2〜3人と、トレーナーとで卓を囲めるレッスンです。</p>';
-    html+='<p class="ak-desc">正式なクラスは、初回レッスンの終わりにトレーナーが認定します。</p>';
-    html+='<p class="ak-price">¥2,200〜/1人・1時間(成立人数により当日精算)</p>';
-    html+='<div class="ak-cta">'+(urlA?('<a class="btn btn-fill" href="'+urlA+'" target="_blank" rel="noopener">開催予定の会に参加する</a>'):'<span class="ak-soon">この枠の予約ページは準備中です。公開まで少々お待ちください。</span>');
-    html+='<p class="ask-note" style="margin-top:10px">ご希望の日時が見つからないときは、'+createLink+'仲間を募ることもできます(2時間・開始時間は決められた候補から選べます)</p></div>';
+    inner+='<p class="ak-tag">おひとり参加レッスン</p>';
+    inner+='<p class="ak-name">'+gemSvg('rsv-gem')+'あなたは【'+t.band+'】スタートです</p>';
+    inner+='<p class="ak-desc">ひとりで来ても、同じレベルの仲間2〜3人と、トレーナーとで卓を囲めるレッスンです。</p>';
+    inner+='<p class="ak-desc">正式なクラスは、初回レッスンの終わりにトレーナーが認定します。</p>';
+    inner+='<p class="ak-price">¥2,200〜/1人・1時間(成立人数により当日精算)</p>';
+    inner+='<div class="ak-cta">'+(urlA?('<a class="btn btn-fill" href="'+urlA+'" target="_blank" rel="noopener">開催予定の会に参加する</a>'):'<span class="ak-soon">この枠の予約ページは準備中です。公開まで少々お待ちください。</span>');
+    inner+='<p class="ask-note" style="margin-top:10px">ご希望の日時が見つからないときは、'+createLink+'仲間を募ることもできます(2時間・開始時間は決められた候補から選べます)</p></div>';
   }
-  html+=lineFoot+resetLink;
+  var html='<div class="frp frp-soft ask">'+CNR+inner+lineFoot+'</div>'+resetLink;
   var body=document.getElementById('rsvBody');
   body.innerHTML=html;
   var reset=document.getElementById('rsvReset');
-  if(reset){
-    reset.addEventListener('click',function(e){
-      e.preventDefault();
-      path=[];
-      transitionRender();
-    });
-  }
+  if(reset){ reset.addEventListener('click',goReset); }
   var rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
   document.getElementById('rsvStage').scrollIntoView({behavior:rm?'auto':'smooth',block:'nearest'});
   sendGAS(t);
 }
 function render(){
-  var state=deriveState();
-  var t=terminal(state);
-  if(t){ renderResult(t); return; }
-  var nq=nextQ(state);
-  if(nq){ renderQuestion(nq); }
+  if(!entryMode){ renderEntry(); return; }
+  if(entryMode==='first'){
+    var s=deriveFirstState();
+    var t=terminalFirst(s);
+    if(t){ renderResult(t); return; }
+    var nq=nextQFirst(s);
+    if(nq){
+      var note='';
+      if(nq==='2'){
+        note='<p class="ask-note" style="margin-top:16px">※男性を含むグループは貸切のみのご案内です(<a href="index.html#charter">お問い合わせ</a>へ)。</p>';
+      }
+      renderQuestion(nq,QDATA,note);
+    }
+  }else{
+    var rs=deriveRepeatState();
+    var rt=terminalRepeat(rs);
+    if(rt){ renderResult(rt); return; }
+    var rnq=nextQRepeat(rs);
+    if(rnq){
+      var rnote='';
+      if(rnq==='r2'){
+        rnote='<p class="ask-note" style="margin-top:16px">レベル帯に迷ったら、低い方でご予約ください。当日トレーナーが調整します。</p>';
+      }
+      renderQuestion(rnq,RDATA,rnote);
+    }
+  }
 }
 function transitionRender(){
   var body=document.getElementById('rsvBody');
@@ -258,18 +334,6 @@ function transitionRender(){
   body.classList.add('rsv-fade');
   setTimeout(function(){ render(); body.classList.remove('rsv-fade'); },300);
 }
-
-document.querySelectorAll('.rsv-repeat a[data-store]').forEach(function(a){
-  var url=STORES[a.getAttribute('data-store')];
-  if(url){
-    a.setAttribute('href',url);
-    a.setAttribute('target','_blank');
-    a.setAttribute('rel','noopener');
-  }else{
-    a.classList.add('dis');
-    a.textContent=a.textContent+'(準備中)';
-  }
-});
 
 render();
 })();

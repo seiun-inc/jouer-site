@@ -25,15 +25,27 @@ for (const f of pages) {
   }
   if (f === 'reserve.html') {
     checks.push([/GAS_URL/.test(html), 'GAS_URL設定が見つからない']);
-    checks.push([/お友だちと(\(2名〜4名\)|2名〜4名)/.test(html), 'Q1.5の選択肢「お友だちと(2名〜4名)」が見つからない']);
+    checks.push([/お友だちと(\(2名〜4名\)|2名〜4名)/.test(html), 'Q2の選択肢「お友だちと(2名〜4名)」が見つからない']);
     checks.push([/開催予定の会に参加する/.test(html), '「開催予定の会に参加する」の表記が見つからない']);
-    // STORES本番URL: camp以外は空欄不可(campはURL発行後にこのチェックへ追加)
+    checks.push([!/Q1\.5/.test(html), '旧質問番号Q1.5が残存(整数のQ1〜Q6に統一するはず)']);
+    checks.push([/aiseki_create_beg/.test(html), 'STORES.aiseki_create_begキーが見つからない(値は空欄可)']);
+    // STORES本番URL: camp・aiseki_create_◯◯以外は空欄不可(未発行のため)
     checks.push([/aiseki_beg:\s*'[^']+'/.test(html), 'STORES.aiseki_begが空です']);
     checks.push([/aiseki_mid:\s*'[^']+'/.test(html), 'STORES.aiseki_midが空です']);
     checks.push([/aiseki_adv:\s*'[^']+'/.test(html), 'STORES.aiseki_advが空です']);
-    checks.push([/aiseki_create:\s*'[^']+'/.test(html), 'STORES.aiseki_createが空です']);
+    checks.push([/\baiseki_create:\s*'[^']+'/.test(html), 'STORES.aiseki_createが空です']);
     checks.push([/\bcoach:\s*'[^']+'/.test(html), 'STORES.coachが空です']);
   }
+  if (f === 'price.html') {
+    checks.push([/おひとり参加レッスン/.test(html), '新プラン名「おひとり参加レッスン」が見つからない']);
+    checks.push([/お友だちとレッスン/.test(html), '新プラン名「お友だちとレッスン」が見つからない']);
+  }
+  if (f === 'reserve.html') {
+    checks.push([/お友だちとレッスン/.test(html), '新プラン名「お友だちとレッスン」が見つからない']);
+    checks.push([/おひとり参加レッスン/.test(html), '新プラン名「おひとり参加レッスン」が見つからない']);
+  }
+  const noComments = html.replace(/<!--[\s\S]*?-->/g, '');
+  checks.push([!/相席レッスン|トレーナー付きレッスン/.test(noComments), '旧プラン名(相席レッスン/トレーナー付きレッスン)がお客様向けテキストに残存']);
   for (const [pass, msg] of checks) {
     if (!pass) { console.error(`NG ${f}: ${msg}`); ok = false; }
   }

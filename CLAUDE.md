@@ -40,6 +40,8 @@
 - 料金は税込表記。遊技料金(卓料金)とトレーナー料金は**必ず区分して表記**する(風営法の料金規制対応)
 - 現在「仮」の項目: STORES予約URL(徹マンCAMPのみ) / 問い合わせ先(メール・Instagram) / 渋谷駅からの徒歩分数 / ドリンク単品価格
 - お客様向け文言では「枠を立てる」ではなく「会をつくる」、「エントリー」ではなく「参加」を使う
+- プラン名は「おひとり参加レッスン」「お友だちとレッスン」「友達と卓のみ利用(セット利用)」を使う
+  (旧:相席レッスン/トレーナー付きレッスン/卓のみ利用)
 
 ## モデル運用
 
@@ -52,6 +54,7 @@
 
 - [ ] 全6ページの `<meta name="robots" content="noindex,nofollow">`(`<!-- ▼▼ 正式公開時にこの1行を削除 ▼▼ -->` マーカー付き)を削除
 - [x] reserve.html の STORES予約URL設定:相席3帯(`aiseki_beg`/`aiseki_mid`/`aiseki_adv`)・会をつくる(`aiseki_create`)・コーチ付き(`coach`)=完了 / 徹マンCAMP(`camp`)=URL発行待ち・未了
+- [ ] reserve.html の `aiseki_create_beg`/`aiseki_create_mid`/`aiseki_create_adv`(帯別・会をつくる)の差し込み(発行待ち。空の間は共通の`aiseki_create`にフォールバック)
 - [ ] reserve.html の `PHONE_TEL`(電話番号)を実物に差し替え
 - [ ] 公式LINEリンク:reserve.htmlの2箇所(`LINE_URL`・終端①のLINEボタン・全終端共通の「迷ったら公式LINEで」)+セット案内が未了(未開設のため)
 - [x] 問い合わせ先メール:実物化済み(`info@jouer-mahjong.com`)
