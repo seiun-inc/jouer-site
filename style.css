@@ -363,8 +363,8 @@ h1{font-family:var(--disp);font-weight:700;font-size:clamp(30px,5.4vw,47px);line
 html:not(.js) .a-wrap{grid-template-rows:1fr}
 .qa.open .a-wrap{grid-template-rows:1fr}
 .a-wrap>div{overflow:hidden}
-.qa .a{display:flex;gap:14px;padding:0 24px 22px 80px;font-size:14px;color:#4a4145}
-.qa .a::before{content:"A";font-family:var(--latin);font-weight:600;font-size:17px;color:var(--gold);flex:none;line-height:1.9}
+.qa .a{display:block;position:relative;padding:0 24px 22px 111px;font-size:14px;color:#4a4145}
+.qa .a::before{content:"A";position:absolute;left:80px;top:0;font-family:var(--latin);font-weight:600;font-size:17px;color:var(--gold);line-height:1.9}
 
 /* ══ cta band ══ */
 .cta-band{background:var(--pink-bg);text-align:center;position:relative;overflow:hidden;border-top:1px solid var(--line)}
@@ -403,7 +403,8 @@ footer a{color:#f5eef1}
   .gnav::-webkit-scrollbar{display:none}
   .gnav a{font-size:12.5px;padding:6px 9px;white-space:nowrap;flex:none}
   .gnav a.cta{padding:8px 16px;margin-left:2px}
-  .qa .a{padding-left:24px}
+  .qa .a{padding-left:55px}
+  .qa .a::before{left:24px}
   .frp{padding:26px 22px}
 }
 @media(max-width:480px){
@@ -434,7 +435,8 @@ footer a{color:#f5eef1}
   .sum-grid .frp{max-width:none!important;width:100%}
   .sum-grid .sum-plus{width:100%;text-align:center}
   .qa .q{padding:15px 14px;gap:12px;font-size:14.5px}
-  .qa .a{padding:0 14px 18px}
+  .qa .a{padding:0 14px 18px 45px}
+  .qa .a::before{left:14px}
   .mini-pai{width:32px;height:42px}
   .st-ph{width:110px;height:110px}
   .night-detail .big,.model .total{font-size:26px}
@@ -476,7 +478,7 @@ footer a{color:#f5eef1}
 /* ══ v8: 章の牌を左→右→左→右に(PCのみ) ══ */
 @media(min-width:821px){
   #ch-1 .chap-in,#ch-3 .chap-in{flex-direction:row}
-  #ch-2 .chap-in,#ch-4 .chap-in{flex-direction:row-reverse}
+  #ch-2 .chap-in,#ch-4 .chap-in{flex-direction:row-reverse;justify-content:space-between}
 }
 
 /* ══ v8: 筒子牌のホバーフリップ(裏はピンク面にロゴ) ══ */
