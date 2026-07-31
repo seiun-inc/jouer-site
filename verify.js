@@ -1,6 +1,6 @@
 // コミット前検証: node verify.js
 const fs = require('fs');
-const pages = ['index.html','price.html','access.html','faq.html','recruit.html'];
+const pages = ['index.html','price.html','access.html','faq.html','recruit.html','reserve.html'];
 let ok = true;
 for (const f of pages) {
   const html = fs.readFileSync(f, 'utf8');
@@ -14,20 +14,25 @@ for (const f of pages) {
     [!/13:00\s*–\s*翌1:00/.test(html), '旧営業時間表記(13:00 – 翌1:00)が残存'],
     [/noindex/.test(html), '公開前ガード: noindexが見つからない(公開直前に意図して削除した場合はOK)'],
     [!/定休/.test(html), '「定休」表記が残存(定休日はなしになったため削除対象)'],
-    [/予約枠をさがす/.test(html), 'ヘッダーCTAのラベル「予約枠をさがす」が見つからない'],
+    [/<a class="cta[^"]*"\s+href="reserve\.html">/.test(html), 'ヘッダーにreserve.htmlへのCTAが見つからない'],
+    [!/price\.html#find/.test(html), '旧#findアンカーへの参照が残存'],
   ];
   if (f === 'price.html') {
     checks.push([!/¥3,850\s*\/\s*卓/.test(html), '旧コーチング料表記(¥3,850/卓)が残存']);
     checks.push([!/set_beg|set_mid|set_adv/.test(html), '旧STORESキー(set_beg等)が残存']);
+    checks.push([!/id="ask/.test(html)&&!/class="ask-opts/.test(html), '料金ページに診断UIが残存(reserve.htmlへ移設済みのはず)']);
+    checks.push([!/GAS_URL/.test(html), '料金ページにGAS_URLが残存(reserve.htmlへ移設済みのはず)']);
+  }
+  if (f === 'reserve.html') {
     checks.push([/GAS_URL/.test(html), 'GAS_URL設定が見つからない']);
     checks.push([/お友だちと(\(2名〜4名\)|2名〜4名)/.test(html), 'Q1.5の選択肢「お友だちと(2名〜4名)」が見つからない']);
+    checks.push([/開催予定の会に参加する/.test(html), '「開催予定の会に参加する」の表記が見つからない']);
     // STORES本番URL: camp以外は空欄不可(campはURL発行後にこのチェックへ追加)
     checks.push([/aiseki_beg:\s*'[^']+'/.test(html), 'STORES.aiseki_begが空です']);
     checks.push([/aiseki_mid:\s*'[^']+'/.test(html), 'STORES.aiseki_midが空です']);
     checks.push([/aiseki_adv:\s*'[^']+'/.test(html), 'STORES.aiseki_advが空です']);
     checks.push([/aiseki_create:\s*'[^']+'/.test(html), 'STORES.aiseki_createが空です']);
     checks.push([/\bcoach:\s*'[^']+'/.test(html), 'STORES.coachが空です']);
-    checks.push([/開催予定の会に参加する/.test(html), '「開催予定の会に参加する」の表記が見つからない']);
   }
   for (const [pass, msg] of checks) {
     if (!pass) { console.error(`NG ${f}: ${msg}`); ok = false; }
@@ -39,10 +44,10 @@ for (const f of pages) {
 try { new Function(fs.readFileSync('app.js','utf8')); }
 catch (e) { console.error(`NG app.js: 構文エラー: ${e.message}`); ok = false; }
 // 先祖返りチェック(重要コンテンツの残存)
-const pr = fs.readFileSync('price.html','utf8');
+const rsv = fs.readFileSync('reserve.html','utf8');
 const idx = fs.readFileSync('index.html','utf8');
 for (const [h, key, name] of [
-  [pr, 'STORES={', 'STORES予約URL設定表'],
+  [rsv, 'STORES={', 'STORES予約URL設定表'],
   [idx, '徹マン CAMP', '徹マンCAMPセクション'],
   [idx, 'id="camp"', 'FAQからのアンカー'],
 ]) {
