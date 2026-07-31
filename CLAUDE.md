@@ -37,7 +37,8 @@
 - 通常営業は女性専用。男性は貸切のみ可
 - ノーレート(賭け事なし)。景品・賞品の提供表現は書かない(風営法)
 - 料金は税込表記。遊技料金(卓料金)とトレーナー料金は**必ず区分して表記**する(風営法の料金規制対応)
-- 現在「仮」の項目: STORES予約URL / 問い合わせ先(メール・Instagram) / 渋谷駅からの徒歩分数 / ドリンク単品価格
+- 現在「仮」の項目: STORES予約URL(徹マンCAMPのみ) / 問い合わせ先(メール・Instagram) / 渋谷駅からの徒歩分数 / ドリンク単品価格
+- お客様向け文言では「枠を立てる」ではなく「会をつくる」、「エントリー」ではなく「参加」を使う
 
 ## モデル運用
 
@@ -49,7 +50,7 @@
 正式公開の直前に、以下を確認・実施する:
 
 - [ ] 全5ページの `<meta name="robots" content="noindex,nofollow">`(`<!-- ▼▼ 正式公開時にこの1行を削除 ▼▼ -->` マーカー付き)を削除
-- [ ] price.html の STORES予約URL設定(5キー:`aiseki_beg`/`aiseki_mid`/`aiseki_adv`/`coach`/`camp`)にURLを差し込み
+- [x] price.html の STORES予約URL設定:相席3帯(`aiseki_beg`/`aiseki_mid`/`aiseki_adv`)・会をつくる(`aiseki_create`)・コーチ付き(`coach`)=完了 / 徹マンCAMP(`camp`)=URL発行待ち・未了
 - [ ] price.html の `PHONE_TEL`(電話番号)・`LINE_URL`(公式LINE URL)を実物に差し替え
 - [x] 問い合わせ先メール:実物化済み(`info@jouer-mahjong.com`)
 - [ ] 問い合わせ先Instagram:未了(実アカウント確定後に差し替え)
