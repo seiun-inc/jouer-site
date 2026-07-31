@@ -40,6 +40,11 @@ for (const f of pages) {
     checks.push([/おひとり参加レッスン/.test(html), '新プラン名「おひとり参加レッスン」が見つからない']);
     checks.push([/お友だちとレッスン/.test(html), '新プラン名「お友だちとレッスン」が見つからない']);
   }
+  if (f === 'index.html') {
+    checks.push([/table\.jpg/.test(html), 'table.jpgの参照が見つからない']);
+    checks.push([/tiles\.jpg/.test(html), 'tiles.jpgの参照が見つからない']);
+    checks.push([!/PHOTO COMING SOON/.test(html), 'PHOTO COMING SOONのプレースホルダーが残存']);
+  }
   if (f === 'reserve.html') {
     checks.push([/お友だちとレッスン/.test(html), '新プラン名「お友だちとレッスン」が見つからない']);
     checks.push([/おひとり参加レッスン/.test(html), '新プラン名「おひとり参加レッスン」が見つからない']);
