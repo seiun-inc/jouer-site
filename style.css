@@ -524,3 +524,21 @@ footer a{color:#f5eef1}
 .ak-cta{margin-top:16px}
 .ak-soon{display:inline-block;font-size:13px;color:var(--gray);border:1px dashed var(--pink-mid);padding:10px 18px;letter-spacing:.04em}
 @media(max-width:640px){.ask-opts.lv{grid-template-columns:1fr}}
+.gnav a.cta.on{background:var(--rose-deep)}
+
+/* ══ 会話型予約ページ(reserve.html) ══ */
+.ask-opts.stack{display:flex;flex-direction:column;gap:10px}
+.ask-opts.stack button{width:100%;text-align:left;padding:14px 18px;border-radius:12px}
+.rsv-repeat{font-size:12px;color:var(--gray);text-align:center;margin-bottom:18px;line-height:1.9}
+.rsv-repeat a{color:var(--rose-deep)}
+.rsv-repeat a.dis{color:var(--gray);pointer-events:none}
+.rsv-progress{display:flex;justify-content:center;gap:6px;margin-bottom:14px}
+.rsv-progress svg{width:13px;height:13px;opacity:.28}
+.rsv-progress svg.on{opacity:1}
+.rsv-qnum{font-family:var(--latin);font-weight:600;font-size:13px;letter-spacing:.14em;color:var(--rose-deep)}
+.rsv-qtext{font-family:var(--disp);font-weight:600;font-size:clamp(20px,4vw,26px);letter-spacing:.04em;margin:8px 0 22px;line-height:1.5}
+.rsv-back{display:inline-block;font-size:12.5px;color:var(--gray);margin-top:18px;text-decoration:underline}
+.rsv-gem{width:20px;height:20px;vertical-align:-4px;margin-right:6px}
+#rsvBody{opacity:1;transition:opacity .3s}
+#rsvBody.rsv-fade{opacity:0}
+@media(prefers-reduced-motion:reduce){#rsvBody{transition:none}}

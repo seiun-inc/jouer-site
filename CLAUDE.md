@@ -6,7 +6,8 @@
 ## 構成
 
 - `index.html` トップ(ヒーロー/concept/4章ストーリー/スタッフ/HOW TO ENJOY/徹マンCAMP/貸切/料金/CTA)
-- `price.html` 料金・システム(基礎料金表+予約枠診断+プランカード)
+- `price.html` 料金・システム(足し算図解+プラン比較表。予約導線はreserve.htmlへの橋のみ)
+- `reserve.html` 会話型予約ページ(1問ずつ答える分岐診断。STORES設定表とGAS連携はここにある)
 - `access.html` / `faq.html` / `recruit.html`
 - `style.css` 全スタイル(冒頭の:root変数で色・フォント管理)
 - `app.js` 演出(リビール/カウントアップ/FAQフリップ/宝石canvas/パララックス)
@@ -49,9 +50,10 @@
 
 正式公開の直前に、以下を確認・実施する:
 
-- [ ] 全5ページの `<meta name="robots" content="noindex,nofollow">`(`<!-- ▼▼ 正式公開時にこの1行を削除 ▼▼ -->` マーカー付き)を削除
-- [x] price.html の STORES予約URL設定:相席3帯(`aiseki_beg`/`aiseki_mid`/`aiseki_adv`)・会をつくる(`aiseki_create`)・コーチ付き(`coach`)=完了 / 徹マンCAMP(`camp`)=URL発行待ち・未了
-- [ ] price.html の `PHONE_TEL`(電話番号)・`LINE_URL`(公式LINE URL)を実物に差し替え
+- [ ] 全6ページの `<meta name="robots" content="noindex,nofollow">`(`<!-- ▼▼ 正式公開時にこの1行を削除 ▼▼ -->` マーカー付き)を削除
+- [x] reserve.html の STORES予約URL設定:相席3帯(`aiseki_beg`/`aiseki_mid`/`aiseki_adv`)・会をつくる(`aiseki_create`)・コーチ付き(`coach`)=完了 / 徹マンCAMP(`camp`)=URL発行待ち・未了
+- [ ] reserve.html の `PHONE_TEL`(電話番号)を実物に差し替え
+- [ ] 公式LINEリンク:reserve.htmlの2箇所(`LINE_URL`・終端①のLINEボタン・全終端共通の「迷ったら公式LINEで」)+セット案内が未了(未開設のため)
 - [x] 問い合わせ先メール:実物化済み(`info@jouer-mahjong.com`)
 - [ ] 問い合わせ先Instagram:未了(実アカウント確定後に差し替え)
 - [ ] ドリンク単品価格(現在¥330〜・仮)を確定
