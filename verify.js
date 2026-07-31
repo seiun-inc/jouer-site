@@ -21,6 +21,13 @@ for (const f of pages) {
     checks.push([!/set_beg|set_mid|set_adv/.test(html), '旧STORESキー(set_beg等)が残存']);
     checks.push([/GAS_URL/.test(html), 'GAS_URL設定が見つからない']);
     checks.push([/お友だちと(\(2名〜4名\)|2名〜4名)/.test(html), 'Q1.5の選択肢「お友だちと(2名〜4名)」が見つからない']);
+    // STORES本番URL: camp以外は空欄不可(campはURL発行後にこのチェックへ追加)
+    checks.push([/aiseki_beg:\s*'[^']+'/.test(html), 'STORES.aiseki_begが空です']);
+    checks.push([/aiseki_mid:\s*'[^']+'/.test(html), 'STORES.aiseki_midが空です']);
+    checks.push([/aiseki_adv:\s*'[^']+'/.test(html), 'STORES.aiseki_advが空です']);
+    checks.push([/aiseki_create:\s*'[^']+'/.test(html), 'STORES.aiseki_createが空です']);
+    checks.push([/\bcoach:\s*'[^']+'/.test(html), 'STORES.coachが空です']);
+    checks.push([/開催予定の会に参加する/.test(html), '「開催予定の会に参加する」の表記が見つからない']);
   }
   for (const [pass, msg] of checks) {
     if (!pass) { console.error(`NG ${f}: ${msg}`); ok = false; }
