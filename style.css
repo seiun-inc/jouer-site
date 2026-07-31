@@ -529,9 +529,9 @@ footer a{color:#f5eef1}
 /* ══ 会話型予約ページ(reserve.html) ══ */
 .ask-opts.stack{display:flex;flex-direction:column;gap:10px}
 .ask-opts.stack button{width:100%;text-align:left;padding:14px 18px;border-radius:12px}
-.rsv-repeat{font-size:12px;color:var(--gray);text-align:center;margin-bottom:18px;line-height:1.9}
-.rsv-repeat a{color:var(--rose-deep)}
-.rsv-repeat a.dis{color:var(--gray);pointer-events:none}
+.rsv-entry{display:flex;flex-direction:column;gap:16px}
+.rsv-entry-card{padding:32px 28px;text-align:center}
+.rsv-entry-ttl{font-family:var(--disp);font-weight:600;font-size:16px;letter-spacing:.04em;margin-bottom:18px}
 .rsv-progress{display:flex;justify-content:center;gap:6px;margin-bottom:14px}
 .rsv-progress svg{width:13px;height:13px;opacity:.28}
 .rsv-progress svg.on{opacity:1}
