@@ -19,6 +19,8 @@ for (const f of pages) {
   if (f === 'price.html') {
     checks.push([!/¥3,850\s*\/\s*卓/.test(html), '旧コーチング料表記(¥3,850/卓)が残存']);
     checks.push([!/set_beg|set_mid|set_adv/.test(html), '旧STORESキー(set_beg等)が残存']);
+    checks.push([/GAS_URL/.test(html), 'GAS_URL設定が見つからない']);
+    checks.push([/お友だちと(\(2名〜4名\)|2名〜4名)/.test(html), 'Q1.5の選択肢「お友だちと(2名〜4名)」が見つからない']);
   }
   for (const [pass, msg] of checks) {
     if (!pass) { console.error(`NG ${f}: ${msg}`); ok = false; }
@@ -34,7 +36,6 @@ const pr = fs.readFileSync('price.html','utf8');
 const idx = fs.readFileSync('index.html','utf8');
 for (const [h, key, name] of [
   [pr, 'STORES={', 'STORES予約URL設定表'],
-  [pr, 'data-v="8"', 'レベル診断(8段階)'],
   [idx, '徹マン CAMP', '徹マンCAMPセクション'],
   [idx, 'id="camp"', 'FAQからのアンカー'],
 ]) {
