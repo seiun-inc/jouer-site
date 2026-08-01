@@ -35,6 +35,7 @@ for (const f of pages) {
     checks.push([/aiseki_adv:\s*'[^']+'/.test(html), 'STORES.aiseki_advが空です']);
     checks.push([/\baiseki_create:\s*'[^']+'/.test(html), 'STORES.aiseki_createが空です']);
     checks.push([/\bcoach:\s*'[^']+'/.test(html), 'STORES.coachが空です']);
+    checks.push([/LINE_URL\s*=\s*'[^']+'/.test(html), 'LINE_URLが空です']);
   }
   if (f === 'price.html') {
     checks.push([/おひとり参加レッスン/.test(html), '新プラン名「おひとり参加レッスン」が見つからない']);

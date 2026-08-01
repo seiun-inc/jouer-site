@@ -56,7 +56,7 @@
 - [x] reserve.html の STORES予約URL設定:相席3帯(`aiseki_beg`/`aiseki_mid`/`aiseki_adv`)・会をつくる(`aiseki_create`)・コーチ付き(`coach`)=完了 / 徹マンCAMP(`camp`)=URL発行待ち・未了
 - [ ] reserve.html の `aiseki_create_beg`/`aiseki_create_mid`/`aiseki_create_adv`(帯別・会をつくる)の差し込み(発行待ち。空の間は共通の`aiseki_create`にフォールバック)
 - [ ] reserve.html の `PHONE_TEL`(電話番号)を実物に差し替え
-- [ ] 公式LINEリンク:reserve.htmlの2箇所(`LINE_URL`・終端①のLINEボタン・全終端共通の「迷ったら公式LINEで」)+セット案内が未了(未開設のため)
+- [x] 公式LINEリンク:実物に差し替え済み(`LINE_URL`=`https://lin.ee/qetP6h9`。reserve.htmlの終端①LINEボタン・全終端共通の「迷ったら公式LINEで」、price.html/faq.htmlのテキストリンクに反映)
 - [x] 問い合わせ先メール:実物化済み(`info@jouer-mahjong.com`)
 - [ ] 問い合わせ先Instagram:未了(実アカウント確定後に差し替え)
 - [ ] ドリンク単品価格(現在¥330〜・仮)を確定
