@@ -104,20 +104,28 @@ var QDATA={
 var RDATA={
   'r1':{num:'R1',text:'どなたといらっしゃいますか?',opts:[
     {v:'solo',label:'ひとりで'},
-    {v:'multi',label:'お友だちと(2名〜4名)'}
+    {v:'multi',label:'お友だちと(2名〜4名)'},
+    {v:'set',label:'卓のみ利用(セット)'}
   ]},
-  'r2':{num:'R2',text:'あなたの認定ランク(レベル帯)は?',opts:[
+  'r2':{num:'R2',text:'前回ご参加のレベル帯は?',opts:[
     {v:'初級',label:'初級'},
     {v:'中級',label:'中級'},
-    {v:'上級',label:'上級'}
+    {v:'上級',label:'上級'},
+    {v:'firsttime',label:'レッスンは今回がはじめて・レベル帯がわからない'}
   ]}
 };
 
-var entryMode=null; /* null(入口選択) | 'first' | 'repeat' */
+var entryMode=null; /* null(入口選択) | 'first' | 'repeat' | 'repeatMerge' */
 var path=[]; /* [{k,v,label}, ...] 現在のモード内での回答履歴(戻る・リセットに使用) */
+var repeatR1=null; /* repeatMerge突入時のR1回答(R2への戻る用に保持) */
 
 function deriveFirstState(){
   var s={q1:null,q2:null,q3:null,q4:null,q5:null,q6:null};
+  path.forEach(function(p){ s['q'+p.k]=p.v; });
+  return s;
+}
+function deriveMergeState(){
+  var s={q1:'trainer',q2:'solo',q3:null,q4:null,q5:null,q6:null};
   path.forEach(function(p){ s['q'+p.k]=p.v; });
   return s;
 }
@@ -169,12 +177,13 @@ function deriveRepeatState(){
 }
 function nextQRepeat(s){
   if(!s.r1)return 'r1';
-  if(s.r1==='multi')return null;
+  if(s.r1==='multi'||s.r1==='set')return null;
   if(!s.r2)return 'r2';
   return null;
 }
 function terminalRepeat(s){
   if(s.r1==='multi')return {type:'coach'};
+  if(s.r1==='set')return {type:'phone'};
   if(s.r1!=='solo')return null;
   if(s.r2)return {type:'aiseki',band:s.r2};
   return null;
@@ -194,12 +203,12 @@ function sendGAS(t){
   if(!GAS_URL)return;
   try{
     var payload={q1:'',q2:'',q3:'',q4:'',q5:'',q6:''};
-    if(entryMode==='first'){
+    if(entryMode==='first'||entryMode==='repeatMerge'){
       path.forEach(function(p){ payload['q'+p.k]=p.label; });
     }
     payload.band=t.band||'';
     payload.plan=t.type==='phone'?'set':t.type;
-    payload.entry=entryMode;
+    payload.entry=(entryMode==='repeatMerge')?'repeat':entryMode;
     fetch(GAS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(payload)}).catch(function(){});
   }catch(e){}
 }
@@ -208,13 +217,16 @@ function backLinkHtml(){
 }
 function goBack(e){
   e.preventDefault();
-  if(path.length){ path.pop(); } else { entryMode=null; }
+  if(path.length){ path.pop(); }
+  else if(entryMode==='repeatMerge'){ entryMode='repeat'; path=repeatR1?[repeatR1]:[]; }
+  else { entryMode=null; }
   transitionRender();
 }
 function goReset(e){
   e.preventDefault();
   path=[];
   entryMode=null;
+  repeatR1=null;
   transitionRender();
 }
 function renderEntry(){
@@ -222,12 +234,14 @@ function renderEntry(){
   var html=
     '<div class="rsv-entry">'+
       '<div class="frp frp-soft rsv-entry-card">'+CNR+
-        '<p class="rsv-entry-ttl">はじめての方・レベル診断がまだの方</p>'+
-        '<button type="button" class="btn btn-fill" data-entry="first">質問に答えて予約ページをさがす</button>'+
+        '<p class="rsv-entry-ttl">はじめてご利用の方</p>'+
+        '<p class="ask-note" style="margin-bottom:16px">かんたんな質問に答えて、ぴったりの予約ページをご案内します</p>'+
+        '<button type="button" class="btn btn-fill" data-entry="first">質問に答えてはじめる</button>'+
       '</div>'+
       '<div class="frp frp-soft rsv-entry-card">'+CNR+
-        '<p class="rsv-entry-ttl">2回目以降の方(ランク認定済みの方)</p>'+
-        '<button type="button" class="btn btn-fill" data-entry="repeat">認定ランクで予約する</button>'+
+        '<p class="rsv-entry-ttl">2回目以降の方</p>'+
+        '<p class="ask-note" style="margin-bottom:16px">前回と同じメニューでそのままご予約いただけます</p>'+
+        '<button type="button" class="btn btn-fill" data-entry="repeat">メニューをえらぶ</button>'+
       '</div>'+
     '</div>';
   var body=document.getElementById('rsvBody');
@@ -256,7 +270,13 @@ function renderQuestion(qk,data,noteHtml){
   body.innerHTML=html;
   body.querySelectorAll('button[data-v]').forEach(function(b){
     b.addEventListener('click',function(){
-      path.push({k:qk,v:b.getAttribute('data-v'),label:b.textContent.trim()});
+      var v=b.getAttribute('data-v');
+      path.push({k:qk,v:v,label:b.textContent.trim()});
+      if(qk==='r2'&&v==='firsttime'){
+        repeatR1=path[0];
+        entryMode='repeatMerge';
+        path=[];
+      }
       transitionRender();
     });
   });
@@ -301,8 +321,8 @@ function renderResult(t){
 }
 function render(){
   if(!entryMode){ renderEntry(); return; }
-  if(entryMode==='first'){
-    var s=deriveFirstState();
+  if(entryMode==='first'||entryMode==='repeatMerge'){
+    var s=entryMode==='first'?deriveFirstState():deriveMergeState();
     var t=terminalFirst(s);
     if(t){ renderResult(t); return; }
     var nq=nextQFirst(s);

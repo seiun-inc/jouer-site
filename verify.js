@@ -48,6 +48,10 @@ for (const f of pages) {
   if (f === 'reserve.html') {
     checks.push([/お友だちとレッスン/.test(html), '新プラン名「お友だちとレッスン」が見つからない']);
     checks.push([/おひとり参加レッスン/.test(html), '新プラン名「おひとり参加レッスン」が見つからない']);
+    checks.push([/はじめてご利用の方/.test(html), '「はじめてご利用の方」が見つからない']);
+    checks.push([/メニューをえらぶ/.test(html), '「メニューをえらぶ」が見つからない']);
+    checks.push([!/認定ランクで予約する/.test(html), '旧文言「認定ランクで予約する」が残存']);
+    checks.push([!/レベル診断がまだの方/.test(html), '旧文言「レベル診断がまだの方」が残存']);
   }
   const noComments = html.replace(/<!--[\s\S]*?-->/g, '');
   checks.push([!/相席レッスン|トレーナー付きレッスン/.test(noComments), '旧プラン名(相席レッスン/トレーナー付きレッスン)がお客様向けテキストに残存']);
