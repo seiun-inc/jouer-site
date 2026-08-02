@@ -62,7 +62,7 @@ var STORES={
   coach:'https://jouermahjongsalonshi.stores.jp/reserve/honten-umts0g/4964607#pageContent',       /* お友だちとレッスン */
   camp:''  /* 徹マンCAMP(URL発行待ち・空欄=準備中表示) */
 };
-var PHONE_TEL='tel:0000000000';  /* 仮:電話番号(未確定) */
+var PHONE_TEL='';  /* 開業前日に設定(tel:03…) */
 var LINE_URL='https://lin.ee/qetP6h9';  /* 公式LINEのURL */
 /* ▲▲ 編集OK ▲▲ */
 /* ▼▼ 編集OK:回答記録用GAS URL(空欄=送信しない) ▼▼ */
@@ -290,8 +290,8 @@ function renderResult(t){
   var inner='';
   if(t.type==='phone'){
     inner+='<p class="ak-name">卓のみのご利用</p>';
-    inner+='<p class="ak-desc">卓のみのご利用は、お電話または公式LINEで承ります。</p>';
-    inner+='<div class="ak-cta"><a class="btn" href="'+PHONE_TEL+'">お電話で相談する</a> <a class="btn btn-fill" href="'+(LINE_URL||'#')+'" target="_blank" rel="noopener">公式LINEで相談する</a></div>';
+    inner+='<p class="ak-desc">卓のみのご利用は、公式LINEで承ります。</p>';
+    inner+='<div class="ak-cta">'+(PHONE_TEL?('<a class="btn" href="'+PHONE_TEL+'">お電話で相談する</a> '):'')+'<a class="btn btn-fill" href="'+(LINE_URL||'#')+'" target="_blank" rel="noopener">公式LINEで相談する</a></div>';
   }else if(t.type==='coach'){
     var urlC=STORES.coach;
     inner+='<p class="ak-name">お友だちとレッスン</p>';
@@ -306,7 +306,7 @@ function renderResult(t){
     inner+='<p class="ak-name">'+gemSvg('rsv-gem')+'あなたは【'+t.band+'】スタートです</p>';
     inner+='<p class="ak-desc">ひとりで来ても、同じレベルの仲間2〜3人と、トレーナーとで卓を囲めるレッスンです。</p>';
     inner+='<p class="ak-desc">正式なクラスは、初回レッスンの終わりにトレーナーが認定します。</p>';
-    inner+='<p class="ak-price">¥2,200〜/1人・1時間(成立人数により当日精算)</p>';
+    inner+='<p class="ak-price">¥1,650〜/1人・1時間(成立人数により当日精算)</p>';
     inner+='<div class="ak-cta">'+(urlA?('<a class="btn btn-fill" href="'+urlA+'" target="_blank" rel="noopener">開催予定の会に参加する</a>'):'<span class="ak-soon">この枠の予約ページは準備中です。公開まで少々お待ちください。</span>');
     inner+='<p class="ask-note" style="margin-top:10px">ご希望の日時が見つからないときは、'+createLink+'仲間を募ることもできます(2時間・開始時間は決められた候補から選べます)</p></div>';
   }

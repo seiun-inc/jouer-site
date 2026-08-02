@@ -16,6 +16,7 @@ for (const f of pages) {
     [!/定休/.test(html), '「定休」表記が残存(定休日はなしになったため削除対象)'],
     [/<a class="cta[^"]*"\s+href="reserve\.html">/.test(html), 'ヘッダーにreserve.htmlへのCTAが見つからない'],
     [!/price\.html#find/.test(html), '旧#findアンカーへの参照が残存'],
+    [!/tel:0000000000/.test(html), '仮の電話番号(tel:0000000000)が残存'],
   ];
   if (f === 'price.html') {
     checks.push([!/¥3,850\s*\/\s*卓/.test(html), '旧コーチング料表記(¥3,850/卓)が残存']);
@@ -45,6 +46,10 @@ for (const f of pages) {
     checks.push([/table\.jpg/.test(html), 'table.jpgの参照が見つからない']);
     checks.push([/tiles\.jpg/.test(html), 'tiles.jpgの参照が見つからない']);
     checks.push([!/PHOTO COMING SOON/.test(html), 'PHOTO COMING SOONのプレースホルダーが残存']);
+    checks.push([!/id="staff"/.test(html), 'STAFFセクションが復活している(v17で削除済みのはず)']);
+    checks.push([!/>STAFF<span class="fl">/.test(html), 'STAFFセクション見出しが復活している(v17で削除済みのはず)']);
+    checks.push([!/>PRICE<span class="fl">/.test(html), 'PRICEセクション見出しが復活している(v17で削除済みのはず)']);
+    checks.push([/instagram\.com\/jouer\.mahjong/.test(html), 'Instagram本番URLが見つからない']);
   }
   if (f === 'reserve.html') {
     checks.push([/お友だちとレッスン/.test(html), '新プラン名「お友だちとレッスン」が見つからない']);
@@ -53,6 +58,7 @@ for (const f of pages) {
     checks.push([/メニューをえらぶ/.test(html), '「メニューをえらぶ」が見つからない']);
     checks.push([!/認定ランクで予約する/.test(html), '旧文言「認定ランクで予約する」が残存']);
     checks.push([!/レベル診断がまだの方/.test(html), '旧文言「レベル診断がまだの方」が残存']);
+    checks.push([/¥1,650〜/.test(html), '新料金表記「¥1,650〜」が見つからない']);
   }
   const noComments = html.replace(/<!--[\s\S]*?-->/g, '');
   checks.push([!/相席レッスン|トレーナー付きレッスン/.test(noComments), '旧プラン名(相席レッスン/トレーナー付きレッスン)がお客様向けテキストに残存']);
