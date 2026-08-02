@@ -41,6 +41,8 @@ for (const f of pages) {
   if (f === 'price.html') {
     checks.push([/おひとり参加レッスン/.test(html), '新プラン名「おひとり参加レッスン」が見つからない']);
     checks.push([/お友だちとレッスン/.test(html), '新プラン名「お友だちとレッスン」が見つからない']);
+    checks.push([!/準備中・仮リンク/.test(html), '陳腐化した「準備中・仮リンク」表記が残存']);
+    checks.push([/キャンセル・変更について/.test(html), '「キャンセル・変更について」ブロックが見つからない']);
   }
   if (f === 'access.html') {
     checks.push([/share\.google\/EX7jSMPCL6X9i9RC0/.test(html), 'Googleマップ共有リンクが見つからない']);
@@ -53,6 +55,8 @@ for (const f of pages) {
     checks.push([!/>STAFF<span class="fl">/.test(html), 'STAFFセクション見出しが復活している(v17で削除済みのはず)']);
     checks.push([!/>PRICE<span class="fl">/.test(html), 'PRICEセクション見出しが復活している(v17で削除済みのはず)']);
     checks.push([/instagram\.com\/jouer\.mahjong/.test(html), 'Instagram本番URLが見つからない']);
+    checks.push([/開催日を公式LINEで確認する/.test(html), 'CAMPボタンの新文言が見つからない']);
+    checks.push([/href="https:\/\/lin\.ee\/qetP6h9"[^>]*>開催日を公式LINEで確認する/.test(html), 'CAMPボタンがlin.eeにリンクしていない']);
   }
   if (f === 'reserve.html') {
     checks.push([/お友だちとレッスン/.test(html), '新プラン名「お友だちとレッスン」が見つからない']);
@@ -62,6 +66,10 @@ for (const f of pages) {
     checks.push([!/認定ランクで予約する/.test(html), '旧文言「認定ランクで予約する」が残存']);
     checks.push([!/レベル診断がまだの方/.test(html), '旧文言「レベル診断がまだの方」が残存']);
     checks.push([/¥1,650〜/.test(html), '新料金表記「¥1,650〜」が見つからない']);
+  }
+  if (f === 'faq.html') {
+    checks.push([/持ち物や服装/.test(html), 'FAQ「持ち物や服装」が見つからない']);
+    checks.push([/キャンセルはできますか/.test(html), 'FAQ「キャンセルはできますか」が見つからない']);
   }
   const noComments = html.replace(/<!--[\s\S]*?-->/g, '');
   checks.push([!/相席レッスン|トレーナー付きレッスン/.test(noComments), '旧プラン名(相席レッスン/トレーナー付きレッスン)がお客様向けテキストに残存']);
