@@ -42,6 +42,9 @@ for (const f of pages) {
     checks.push([/おひとり参加レッスン/.test(html), '新プラン名「おひとり参加レッスン」が見つからない']);
     checks.push([/お友だちとレッスン/.test(html), '新プラン名「お友だちとレッスン」が見つからない']);
   }
+  if (f === 'access.html') {
+    checks.push([/share\.google\/EX7jSMPCL6X9i9RC0/.test(html), 'Googleマップ共有リンクが見つからない']);
+  }
   if (f === 'index.html') {
     checks.push([/table\.jpg/.test(html), 'table.jpgの参照が見つからない']);
     checks.push([/tiles\.jpg/.test(html), 'tiles.jpgの参照が見つからない']);

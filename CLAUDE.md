@@ -62,6 +62,7 @@
 - [ ] ドリンク単品価格(現在¥330〜・仮)を確定
 - [x] STAFF:削除済み(店長決定後に復活。店内写真は table.jpg/tiles.jpg で実物化済み)
 - [x] 各ページの `og:image` のドメイン:確認・差し替え済み(`https://jouer-mahjong.com/logo.png`)
+- [x] Googleマップ共有リンク:実物に差し替え済み(`https://share.google/EX7jSMPCL6X9i9RC0`)
 
 ## 開業前日タスク:電話番号の差し込み
 
