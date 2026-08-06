@@ -55,12 +55,13 @@ var STORES={
   aiseki_beg:'https://jouermahjongsalonshi.stores.jp/reserve/honten-umts0g/4476109#pageContent',  /* おひとり参加 初級(開催予定の会に参加) */
   aiseki_mid:'https://jouermahjongsalonshi.stores.jp/reserve/honten-umts0g/4858901#pageContent',  /* おひとり参加 中級(開催予定の会に参加) */
   aiseki_adv:'https://jouermahjongsalonshi.stores.jp/reserve/honten-umts0g/2841471#pageContent',  /* おひとり参加 上級(開催予定の会に参加) */
-  aiseki_create_beg:'', /* 会をつくる(初級選択済み)※URL発行待ち */
-  aiseki_create_mid:'', /* 会をつくる(中級選択済み)※URL発行待ち */
-  aiseki_create_adv:'', /* 会をつくる(上級選択済み)※URL発行待ち */
+  aiseki_create_beg:'https://jouermahjongsalonshi.stores.jp/reserve/honten-umts0g/1021188/book/course_type?courseCanonicalId=997195#pageContent',  /* 会をつくる(初級) */
+  aiseki_create_mid:'https://jouermahjongsalonshi.stores.jp/reserve/honten-umts0g/1021188/book/course_type?courseCanonicalId=1103603#pageContent', /* 会をつくる(中級) */
+  aiseki_create_adv:'https://jouermahjongsalonshi.stores.jp/reserve/honten-umts0g/1021188/book/course_type?courseCanonicalId=1127507#pageContent', /* 会をつくる(上級) */
   aiseki_create:'https://jouermahjongsalonshi.stores.jp/reserve/honten-umts0g/1021188#pageContent', /* 会をつくる(共通・フォールバック) */
   coach:'https://jouermahjongsalonshi.stores.jp/reserve/honten-umts0g/4964607#pageContent',       /* お友だちとレッスン */
-  camp:''  /* 徹マンCAMP(URL発行待ち・空欄=準備中表示) */
+  set:'https://jouermahjongsalonshi.stores.jp/reserve/honten-umts0g/4786282#pageContent',         /* 友達と卓のみ利用(セット) */
+  camp:''  /* 徹マンCAMP:STORES予約は原則行わない(LINE・SNS案内で確定)。空欄のまま維持 */
 };
 var PHONE_TEL='';  /* 開業前日に設定(tel:03…) */
 var LINE_URL='https://lin.ee/qetP6h9';  /* 公式LINEのURL */
@@ -289,9 +290,13 @@ function renderResult(t){
   var resetLink='<p style="text-align:center;margin-top:10px"><a class="rsv-back" href="#" id="rsvReset">もう一度最初から</a></p>';
   var inner='';
   if(t.type==='phone'){
+    var urlS=STORES.set;
     inner+='<p class="ak-name">卓のみのご利用</p>';
-    inner+='<p class="ak-desc">卓のみのご利用は、公式LINEで承ります。</p>';
-    inner+='<div class="ak-cta">'+(PHONE_TEL?('<a class="btn" href="'+PHONE_TEL+'">お電話で相談する</a> '):'')+'<a class="btn btn-fill" href="'+(LINE_URL||'#')+'" target="_blank" rel="noopener">公式LINEで相談する</a></div>';
+    inner+='<p class="ak-desc">卓のみのご利用は、'+(urlS?'予約ページまたは公式LINE':'公式LINE')+'で承ります。</p>';
+    inner+='<div class="ak-cta">'
+      +(urlS?('<a class="btn btn-fill" href="'+urlS+'" target="_blank" rel="noopener">予約ページへすすむ</a> '):'')
+      +(PHONE_TEL?('<a class="btn" href="'+PHONE_TEL+'">お電話で相談する</a> '):'')
+      +'<a class="btn'+(urlS?'':' btn-fill')+'" href="'+(LINE_URL||'#')+'" target="_blank" rel="noopener">公式LINEで相談する</a></div>';
   }else if(t.type==='coach'){
     var urlC=STORES.coach;
     inner+='<p class="ak-name">お友だちとレッスン</p>';

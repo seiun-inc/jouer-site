@@ -38,7 +38,7 @@
 - 通常営業は女性専用。男性は貸切のみ可
 - ノーレート(賭け事なし)。景品・賞品の提供表現は書かない(風営法)
 - 料金は税込表記。遊技料金(卓料金)とトレーナー料金は**必ず区分して表記**する(風営法の料金規制対応)
-- 現在「仮」の項目: STORES予約URL(徹マンCAMPのみ) / ドリンク単品価格
+- 現在「仮」の項目: なし(徹マンCAMPはSTORES予約を原則行わない方針で確定・ドリンク単品は店頭表記で確定)
 - 開業前日まで電話番号は非掲載の方針。問い合わせ手段はメール・Instagram・公式LINEの3本柱
 - お客様向け文言では「枠を立てる」ではなく「会をつくる」、「エントリー」ではなく「参加」を使う
 - プラン名は「おひとり参加レッスン」「お友だちとレッスン」「友達と卓のみ利用(セット利用)」を使う
@@ -54,12 +54,11 @@
 正式公開の直前に、以下を確認・実施する:
 
 - [ ] 全6ページの `<meta name="robots" content="noindex,nofollow">`(`<!-- ▼▼ 正式公開時にこの1行を削除 ▼▼ -->` マーカー付き)を削除
-- [x] reserve.html の STORES予約URL設定:相席3帯(`aiseki_beg`/`aiseki_mid`/`aiseki_adv`)・会をつくる(`aiseki_create`)・コーチ付き(`coach`)=完了 / 徹マンCAMP(`camp`)=URL発行待ち・未了
-- [ ] reserve.html の `aiseki_create_beg`/`aiseki_create_mid`/`aiseki_create_adv`(帯別・会をつくる)の差し込み(発行待ち。空の間は共通の`aiseki_create`にフォールバック)
+- [x] reserve.html の STORES予約URL設定:相席3帯・会をつくる(共通+帯別3本)・コーチ付き・セット(`set`)=完了 / 徹マンCAMP(`camp`)=STORES予約は原則行わない方針で確定(空欄維持)
 - [x] 公式LINEリンク:実物に差し替え済み(`LINE_URL`=`https://lin.ee/qetP6h9`。reserve.htmlの終端①LINEボタン・全終端共通の「迷ったら公式LINEで」、price.html/faq.htmlのテキストリンクに反映)
 - [x] 問い合わせ先メール:実物化済み(`info@jouer-mahjong.com`)
 - [x] 問い合わせ先Instagram:実物に差し替え済み(`https://www.instagram.com/jouer.mahjong/`)
-- [ ] ドリンク単品価格(現在¥330〜・仮)を確定
+- [x] ドリンク単品価格:店頭表記で確定(単品メニューは店頭にてご案内)
 - [x] STAFF:削除済み(店長決定後に復活。店内写真は table.jpg/tiles.jpg で実物化済み)
 - [x] 各ページの `og:image` のドメイン:確認・差し替え済み(`https://jouer-mahjong.com/logo.png`)
 - [x] Googleマップ共有リンク:実物に差し替え済み(`https://share.google/EX7jSMPCL6X9i9RC0`)
@@ -70,6 +69,5 @@
 開業前日まで電話番号はサイトに非掲載の方針(v17)。開業前日に以下へ差し込む:
 
 - [ ] reserve.html の `PHONE_TEL`(空欄 → `tel:03…` を設定。設定すればセット案内カードの電話ボタンは自動表示される)
-- [ ] reserve.html セット案内の文言(「卓のみのご利用は、公式LINEで承ります」→「卓のみのご利用は、公式LINEまたはお電話で承ります」に戻す)
 - [ ] price.html「ご利用にあたって」/faq.htmlの該当文言に電話への言及を復活
 - [ ] index.html CHARTER(電話を4つ目の問い合わせ手段として追加するか、その時判断)
