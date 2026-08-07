@@ -29,16 +29,12 @@ for (const f of pages) {
     checks.push([/お友だちと(\(2名〜4名\)|2名〜4名)/.test(html), 'Q2の選択肢「お友だちと(2名〜4名)」が見つからない']);
     checks.push([/開催予定の会に参加する/.test(html), '「開催予定の会に参加する」の表記が見つからない']);
     checks.push([!/Q1\.5/.test(html), '旧質問番号Q1.5が残存(整数のQ1〜Q6に統一するはず)']);
-    // STORES本番URL: camp以外は空欄不可
+    // STORES本番URL: おひとり参加(相席)3帯のみ。会をつくる/コーチ/セット/CAMPのサイト導線はv21で廃止
     checks.push([/aiseki_beg:\s*'[^']+'/.test(html), 'STORES.aiseki_begが空です']);
     checks.push([/aiseki_mid:\s*'[^']+'/.test(html), 'STORES.aiseki_midが空です']);
     checks.push([/aiseki_adv:\s*'[^']+'/.test(html), 'STORES.aiseki_advが空です']);
-    checks.push([/aiseki_create_beg:\s*'[^']+'/.test(html), 'STORES.aiseki_create_begが空です']);
-    checks.push([/aiseki_create_mid:\s*'[^']+'/.test(html), 'STORES.aiseki_create_midが空です']);
-    checks.push([/aiseki_create_adv:\s*'[^']+'/.test(html), 'STORES.aiseki_create_advが空です']);
-    checks.push([/\baiseki_create:\s*'[^']+'/.test(html), 'STORES.aiseki_createが空です']);
-    checks.push([/\bcoach:\s*'[^']+'/.test(html), 'STORES.coachが空です']);
-    checks.push([/\bset:\s*'[^']+'/.test(html), 'STORES.setが空です']);
+    checks.push([!/aiseki_create|\bcoach:|\bset:|\bcamp:/.test(html), '廃止済みSTORESキー(aiseki_create/coach/set/camp)が残存(v21で廃止)']);
+    checks.push([!/PHONE_TEL/.test(html), 'PHONE_TEL機構が残存(v21で撤去済み)']);
     checks.push([/LINE_URL\s*=\s*'[^']+'/.test(html), 'LINE_URLが空です']);
   }
   if (f === 'price.html') {
