@@ -54,16 +54,10 @@
 var STORES={
   aiseki_beg:'https://jouermahjongsalonshi.stores.jp/reserve/honten-umts0g/4476109#pageContent',  /* おひとり参加 初級(開催予定の会に参加) */
   aiseki_mid:'https://jouermahjongsalonshi.stores.jp/reserve/honten-umts0g/4858901#pageContent',  /* おひとり参加 中級(開催予定の会に参加) */
-  aiseki_adv:'https://jouermahjongsalonshi.stores.jp/reserve/honten-umts0g/2841471#pageContent',  /* おひとり参加 上級(開催予定の会に参加) */
-  aiseki_create_beg:'https://jouermahjongsalonshi.stores.jp/reserve/honten-umts0g/1021188/book/course_type?courseCanonicalId=997195#pageContent',  /* 会をつくる(初級) */
-  aiseki_create_mid:'https://jouermahjongsalonshi.stores.jp/reserve/honten-umts0g/1021188/book/course_type?courseCanonicalId=1103603#pageContent', /* 会をつくる(中級) */
-  aiseki_create_adv:'https://jouermahjongsalonshi.stores.jp/reserve/honten-umts0g/1021188/book/course_type?courseCanonicalId=1127507#pageContent', /* 会をつくる(上級) */
-  aiseki_create:'https://jouermahjongsalonshi.stores.jp/reserve/honten-umts0g/1021188#pageContent', /* 会をつくる(共通・フォールバック) */
-  coach:'https://jouermahjongsalonshi.stores.jp/reserve/honten-umts0g/4964607#pageContent',       /* お友だちとレッスン */
-  set:'https://jouermahjongsalonshi.stores.jp/reserve/honten-umts0g/4786282#pageContent',         /* 友達と卓のみ利用(セット) */
-  camp:''  /* 徹マンCAMP:STORES予約は原則行わない(LINE・SNS案内で確定)。空欄のまま維持 */
+  aiseki_adv:'https://jouermahjongsalonshi.stores.jp/reserve/honten-umts0g/2841471#pageContent'   /* おひとり参加 上級(開催予定の会に参加) */
+  /* お友だちとレッスン・セット・貸切・徹マンCAMPはサイトからのSTORES導線を持たない
+     (公式LINE受付→店側がSTORESへ代理入力)。「会をつくる」方式は廃止(店側が募集枠を立てる方式に変更) */
 };
-var PHONE_TEL='';  /* 開業前日に設定(tel:03…) */
 var LINE_URL='https://lin.ee/qetP6h9';  /* 公式LINEのURL */
 /* ▲▲ 編集OK ▲▲ */
 /* ▼▼ 編集OK:回答記録用GAS URL(空欄=送信しない) ▼▼ */
@@ -286,34 +280,27 @@ function renderQuestion(qk,data,noteHtml){
 }
 function renderResult(t){
   renderProgress(path.length);
-  var lineFoot='<p class="ask-note" style="text-align:center;margin-top:22px">迷ったら、<a href="'+(LINE_URL||'#')+'" target="_blank" rel="noopener">公式LINE</a>でそのままご相談ください</p>';
+  var lineFoot='<p class="ask-note" style="text-align:center;margin-top:22px">予約方法がわからないときは、<a href="'+(LINE_URL||'#')+'" target="_blank" rel="noopener">公式LINE</a>でそのままご相談ください。スタッフが代わりにお手続きします</p>';
   var resetLink='<p style="text-align:center;margin-top:10px"><a class="rsv-back" href="#" id="rsvReset">もう一度最初から</a></p>';
   var inner='';
   if(t.type==='phone'){
-    var urlS=STORES.set;
     inner+='<p class="ak-name">卓のみのご利用</p>';
-    inner+='<p class="ak-desc">卓のみのご利用は、'+(urlS?'予約ページまたは公式LINE':'公式LINE')+'で承ります。</p>';
-    inner+='<div class="ak-cta">'
-      +(urlS?('<a class="btn btn-fill" href="'+urlS+'" target="_blank" rel="noopener">予約ページへすすむ</a> '):'')
-      +(PHONE_TEL?('<a class="btn" href="'+PHONE_TEL+'">お電話で相談する</a> '):'')
-      +'<a class="btn'+(urlS?'':' btn-fill')+'" href="'+(LINE_URL||'#')+'" target="_blank" rel="noopener">公式LINEで相談する</a></div>';
+    inner+='<p class="ak-desc">卓のみのご利用は、公式LINEで承ります。ご希望の日時と人数をお送りください。</p>';
+    inner+='<div class="ak-cta"><a class="btn btn-fill" href="'+(LINE_URL||'#')+'" target="_blank" rel="noopener">公式LINEで予約する</a></div>';
   }else if(t.type==='coach'){
-    var urlC=STORES.coach;
     inner+='<p class="ak-name">お友だちとレッスン</p>';
-    inner+='<p class="ak-desc">お友だちの卓に、専属トレーナーが1名つきます。レベルはご予約時のアンケートでお聞きします。</p>';
+    inner+='<p class="ak-desc">お友だちの卓に、専属トレーナーが1名つきます。ご予約は公式LINEで承ります(トレーナーの手配状況を確認のうえ、確定のご連絡をお送りします)。</p>';
     inner+='<p class="ak-price">1卓 ¥6,600/1時間・4名なら¥1,650/1人</p>';
-    inner+='<div class="ak-cta">'+(urlC?('<a class="btn btn-fill" href="'+urlC+'" target="_blank" rel="noopener">予約ページへすすむ</a>'):'<span class="ak-soon">この枠の予約ページは準備中です。公開まで少々お待ちください。</span>')+'</div>';
+    inner+='<div class="ak-cta"><a class="btn btn-fill" href="'+(LINE_URL||'#')+'" target="_blank" rel="noopener">公式LINEで予約する</a></div>';
   }else{
     var urlA=STORES['aiseki_'+BAND_KEY[t.band]];
-    var urlCreate=STORES['aiseki_create_'+BAND_KEY[t.band]]||STORES.aiseki_create;
-    var createLink=urlCreate?('<a href="'+urlCreate+'" target="_blank" rel="noopener">新しい会をつくって</a>'):'新しい会をつくって(準備中)';
     inner+='<p class="ak-tag">おひとり参加レッスン</p>';
     inner+='<p class="ak-name">'+gemSvg('rsv-gem')+'あなたは【'+t.band+'】スタートです</p>';
-    inner+='<p class="ak-desc">ひとりで来ても、同じレベルの仲間2〜3人と、トレーナーとで卓を囲めるレッスンです。</p>';
+    inner+='<p class="ak-desc">ひとりで来ても、同じレベルの仲間と、トレーナーのサポートつきで卓を囲めるレッスンです(定員4名)。</p>';
     inner+='<p class="ak-desc">正式なクラスは、初回レッスンの終わりにトレーナーが認定します。</p>';
     inner+='<p class="ak-price">¥1,650〜/1人・1時間(成立人数により当日精算)</p>';
     inner+='<div class="ak-cta">'+(urlA?('<a class="btn btn-fill" href="'+urlA+'" target="_blank" rel="noopener">開催予定の会に参加する</a>'):'<span class="ak-soon">この枠の予約ページは準備中です。公開まで少々お待ちください。</span>');
-    inner+='<p class="ask-note" style="margin-top:10px">ご希望の日時が見つからないときは、'+createLink+'仲間を募ることもできます(2時間・開始時間は決められた候補から選べます)</p></div>';
+    inner+='<p class="ask-note" style="margin-top:10px">お申込みの時点では「仮」のお申込みです。同じ会に2名さま以上集まると開催決定となります(最終判定は前日17:00・開催の有無はいずれの場合もご連絡します)。開催が決まった会には、前日24:00まで追加でご参加いただけます。</p></div>';
   }
   var html='<div class="frp frp-soft ask">'+CNR+inner+lineFoot+'</div>'+resetLink;
   var body=document.getElementById('rsvBody');
