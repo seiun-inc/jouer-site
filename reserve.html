@@ -55,8 +55,7 @@ var STORES={
   aiseki_beg:'https://jouermahjongsalonshi.stores.jp/reserve/honten-umts0g/4476109#pageContent',  /* おひとり参加 初級(開催予定の会に参加) */
   aiseki_mid:'https://jouermahjongsalonshi.stores.jp/reserve/honten-umts0g/4858901#pageContent',  /* おひとり参加 中級(開催予定の会に参加) */
   aiseki_adv:'https://jouermahjongsalonshi.stores.jp/reserve/honten-umts0g/2841471#pageContent'   /* おひとり参加 上級(開催予定の会に参加) */
-  /* お友だちとレッスン・セット・貸切・徹マンCAMPはサイトからのSTORES導線を持たない
-     (公式LINE受付→店側がSTORESへ代理入力)。「会をつくる」方式は廃止(店側が募集枠を立てる方式に変更) */
+  /* マンツーマン・貸切はサイトからのSTORES導線を持たない(公式LINE受付→店側がSTORESへ代理入力) */
 };
 var LINE_URL='https://lin.ee/qetP6h9';  /* 公式LINEのURL */
 /* ▲▲ 編集OK ▲▲ */
@@ -300,7 +299,7 @@ function renderResult(t){
     inner+='<p class="ak-desc">正式なクラスは、初回レッスンの終わりにトレーナーが認定します。</p>';
     inner+='<p class="ak-price">¥1,650〜/1人・1時間(成立人数により当日精算)</p>';
     inner+='<div class="ak-cta">'+(urlA?('<a class="btn btn-fill" href="'+urlA+'" target="_blank" rel="noopener">開催予定の会に参加する</a>'):'<span class="ak-soon">この枠の予約ページは準備中です。公開まで少々お待ちください。</span>');
-    inner+='<p class="ask-note" style="margin-top:10px">お申込みの時点では「仮」のお申込みです。同じ会に2名さま以上集まると開催決定となります(最終判定は前日17:00・開催の有無はいずれの場合もご連絡します)。開催が決まった会には、前日24:00まで追加でご参加いただけます。</p></div>';
+    inner+='<p class="ask-note" style="margin-top:10px">お申込みの時点では「仮」のお申込みです。同じ会に2名さま以上集まると開催決定となります(最終判定は2日前17:00・開催の有無はいずれの場合もご連絡します)。開催が決まった会には、前日23:00まで追加でご参加いただけます。</p></div>';
   }
   var html='<div class="frp frp-soft ask">'+CNR+inner+lineFoot+'</div>'+resetLink;
   var body=document.getElementById('rsvBody');
@@ -363,7 +362,7 @@ render();
       <div>
         <h4>HOURS</h4>
         <!-- ▼▼ 編集OK:営業時間 ▼▼ -->
-        <p>昼の部 10:00 – 23:30<br>徹マンCAMP 23:30 – 翌8:00(定期開催)</p>
+        <p>10:00 – 23:00(毎日5枠で開催)</p>
         <!-- ▲▲ 編集OK:営業時間 ▲▲ -->
       </div>
       <div>
