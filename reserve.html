@@ -52,10 +52,10 @@
 (function(){
 /* ▼▼ 編集OK:STORES予約URL・連絡先 ▼▼ */
 var STORES={
-  aiseki_beg:'https://jouermahjongsalonshi.stores.jp/reserve/honten-umts0g/4476109#pageContent',  /* おひとり参加 初級(開催予定の会に参加) */
-  aiseki_mid:'https://jouermahjongsalonshi.stores.jp/reserve/honten-umts0g/4858901#pageContent',  /* おひとり参加 中級(開催予定の会に参加) */
-  aiseki_adv:'https://jouermahjongsalonshi.stores.jp/reserve/honten-umts0g/2841471#pageContent'   /* おひとり参加 上級(開催予定の会に参加) */
-  /* マンツーマン・貸切はサイトからのSTORES導線を持たない(公式LINE受付→店側がSTORESへ代理入力) */
+  aiseki_beg:'https://jouermahjongsalonshi.stores.jp/reserve/honten-umts0g/4476109#pageContent',  /* グループレッスン 麻雀女子デビュープラン(開催予定の会に参加。キー名はレガシーだが変更しない) */
+  aiseki_mid:'https://jouermahjongsalonshi.stores.jp/reserve/honten-umts0g/4858901#pageContent',  /* グループレッスン レベルアッププラン(開催予定の会に参加。キー名はレガシーだが変更しない) */
+  aiseki_adv:'https://jouermahjongsalonshi.stores.jp/reserve/honten-umts0g/2841471#pageContent'   /* グループレッスン マスタープラン(開催予定の会に参加。キー名はレガシーだが変更しない) */
+  /* マンツーマン・セット利用・貸切はサイトからのSTORES導線を持たない(公式LINE受付→店側がSTORESへ代理入力) */
 };
 var LINE_URL='https://lin.ee/qetP6h9';  /* 公式LINEのURL */
 /* ▲▲ 編集OK ▲▲ */
@@ -64,15 +64,21 @@ var GAS_URL='https://script.google.com/macros/s/AKfycbxzgKXOok0m_9c5iJfkzfnhore9
 /* ▲▲ 編集OK ▲▲ */
 
 var BAND_KEY={'初級':'beg','中級':'mid','上級':'adv'};
+var PLAN_INFO={
+  '初級':{name:'麻雀女子デビュープラン',price:'通常5,000円・4名割4,500円'},
+  '中級':{name:'レベルアッププラン',price:'通常4,500円・4名割4,000円'},
+  '上級':{name:'マスタープラン',price:'通常4,500円・4名割4,000円'}
+};
 
 var QDATA={
   '1':{num:'Q1',text:'jouerでのご要望を教えてください',opts:[
-    {v:'trainer',label:'トレーナーと一緒に麻雀を学びたい'},
-    {v:'set',label:'トレーナーなしで、卓だけ使いたい(セット利用)'}
+    {v:'trainer',label:'トレーナーと一緒に学びたい'},
+    {v:'set',label:'経験者同士で自由に打ちたい(セット利用)'},
+    {v:'charter',label:'貸切・パーティーで利用したい'}
   ]},
-  '2':{num:'Q2',text:'どなたといらっしゃいますか?',opts:[
-    {v:'solo',label:'ひとりで'},
-    {v:'multi',label:'お友だちと(2名〜4名)'}
+  '2':{num:'Q2',text:'レッスンの形式を選んでください',opts:[
+    {v:'group',label:'グループレッスン(2〜4名)'},
+    {v:'private',label:'マンツーマン(1対1)'}
   ]},
   '3':{num:'Q3',text:'麻雀のプレイ経験について教えてください',opts:[
     {v:'none',label:'全くやったことがない'},
@@ -96,10 +102,11 @@ var QDATA={
   ]}
 };
 var RDATA={
-  'r1':{num:'R1',text:'どなたといらっしゃいますか?',opts:[
-    {v:'solo',label:'ひとりで'},
-    {v:'multi',label:'お友だちと(2名〜4名)'},
-    {v:'set',label:'卓のみ利用(セット)'}
+  'r1':{num:'R1',text:'今回はどちらをご利用ですか?',opts:[
+    {v:'group',label:'グループレッスン(2〜4名)'},
+    {v:'private',label:'マンツーマン(1対1)'},
+    {v:'set',label:'セット利用'},
+    {v:'charter',label:'貸切'}
   ]},
   'r2':{num:'R2',text:'前回ご参加のレベル帯は?',opts:[
     {v:'初級',label:'初級'},
@@ -119,15 +126,15 @@ function deriveFirstState(){
   return s;
 }
 function deriveMergeState(){
-  var s={q1:'trainer',q2:'solo',q3:null,q4:null,q5:null,q6:null};
+  var s={q1:'trainer',q2:'group',q3:null,q4:null,q5:null,q6:null};
   path.forEach(function(p){ s['q'+p.k]=p.v; });
   return s;
 }
 function nextQFirst(s){
   if(!s.q1)return '1';
-  if(s.q1==='set')return null;
+  if(s.q1==='set'||s.q1==='charter')return null;
   if(!s.q2)return '2';
-  if(s.q2==='multi')return null;
+  if(s.q2==='private')return null;
   if(!s.q3)return '3';
   if(s.q3==='none')return null;
   if(s.q3==='app'){
@@ -144,10 +151,11 @@ function nextQFirst(s){
   return null;
 }
 function terminalFirst(s){
-  if(s.q1==='set')return {type:'phone'};
+  if(s.q1==='set')return {type:'set'};
+  if(s.q1==='charter')return {type:'charter'};
   if(s.q1!=='trainer')return null;
-  if(s.q2==='multi')return {type:'coach'};
-  if(s.q2!=='solo')return null;
+  if(s.q2==='private')return {type:'mantoman'};
+  if(s.q2!=='group')return null;
   if(s.q3==='none')return {type:'aiseki',band:'初級'};
   if(s.q3==='app'){
     if(s.q4==='noname'||s.q4==='vague')return {type:'aiseki',band:'初級'};
@@ -171,14 +179,15 @@ function deriveRepeatState(){
 }
 function nextQRepeat(s){
   if(!s.r1)return 'r1';
-  if(s.r1==='multi'||s.r1==='set')return null;
+  if(s.r1==='private'||s.r1==='set'||s.r1==='charter')return null;
   if(!s.r2)return 'r2';
   return null;
 }
 function terminalRepeat(s){
-  if(s.r1==='multi')return {type:'coach'};
-  if(s.r1==='set')return {type:'phone'};
-  if(s.r1!=='solo')return null;
+  if(s.r1==='private')return {type:'mantoman'};
+  if(s.r1==='set')return {type:'set'};
+  if(s.r1==='charter')return {type:'charter'};
+  if(s.r1!=='group')return null;
   if(s.r2)return {type:'aiseki',band:s.r2};
   return null;
 }
@@ -201,7 +210,7 @@ function sendGAS(t){
       path.forEach(function(p){ payload['q'+p.k]=p.label; });
     }
     payload.band=t.band||'';
-    payload.plan=t.type==='phone'?'set':t.type;
+    payload.plan=t.type;
     payload.entry=(entryMode==='repeatMerge')?'repeat':entryMode;
     fetch(GAS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(payload)}).catch(function(){});
   }catch(e){}
@@ -282,22 +291,31 @@ function renderResult(t){
   var lineFoot='<p class="ask-note" style="text-align:center;margin-top:22px">予約方法がわからないときは、<a href="'+(LINE_URL||'#')+'" target="_blank" rel="noopener">公式LINE</a>でそのままご相談ください。スタッフが代わりにお手続きします</p>';
   var resetLink='<p style="text-align:center;margin-top:10px"><a class="rsv-back" href="#" id="rsvReset">もう一度最初から</a></p>';
   var inner='';
-  if(t.type==='phone'){
-    inner+='<p class="ak-name">卓のみのご利用</p>';
-    inner+='<p class="ak-desc">卓のみのご利用は、公式LINEで承ります。ご希望の日時と人数をお送りください。</p>';
+  if(t.type==='set'){
+    inner+='<p class="ak-name">セット利用(フリー対局)</p>';
+    inner+='<p class="ak-desc">経験者同士で自由に打ちたい方へ。トレーナーなしで卓をご利用いただけます。</p>';
+    inner+='<p class="ak-price">1卓(4名まで)1時間 ¥2,640(税込)</p>';
+    inner+='<p class="ak-desc" style="font-size:13px">お一人につきソフトドリンク飲み放題¥550または単品1品以上のご注文をお願いします。</p>';
+    inner+='<div class="ak-cta"><a class="btn btn-fill" href="'+(LINE_URL||'#')+'" target="_blank" rel="noopener">公式LINEでご相談する</a></div>';
+    inner+='<p class="ask-note" style="margin-top:10px">ご予約・空き状況は公式LINEへ。詳細のご案内は公式LINEにて承ります。</p>';
+  }else if(t.type==='mantoman'){
+    inner+='<p class="ak-name">マンツーマンレッスン</p>';
+    inner+='<p class="ak-desc">お一人に合わせてじっくり進める1対1レッスン。ご予約は公式LINEで承ります(トレーナーの空き状況を確認のうえ、確定のご連絡をお送りします)。</p>';
+    inner+='<p class="ak-price">初心者5,000円/中〜上級8,000円(1時間・最大3時間・税込)</p>';
+    inner+='<p class="ak-desc" style="font-size:13px">中〜上級は指名制あり(指名料はトレーナーにより異なります)。卓とトレーナーに空きがある場合のみご案内可能です。</p>';
     inner+='<div class="ak-cta"><a class="btn btn-fill" href="'+(LINE_URL||'#')+'" target="_blank" rel="noopener">公式LINEで予約する</a></div>';
-  }else if(t.type==='coach'){
-    inner+='<p class="ak-name">お友だちとレッスン</p>';
-    inner+='<p class="ak-desc">お友だちの卓に、専属トレーナーが1名つきます。ご予約は公式LINEで承ります(トレーナーの手配状況を確認のうえ、確定のご連絡をお送りします)。</p>';
-    inner+='<p class="ak-price">1卓 ¥6,600/1時間・4名なら¥1,650/1人</p>';
-    inner+='<div class="ak-cta"><a class="btn btn-fill" href="'+(LINE_URL||'#')+'" target="_blank" rel="noopener">公式LINEで予約する</a></div>';
+  }else if(t.type==='charter'){
+    inner+='<p class="ak-name">貸切</p>';
+    inner+='<p class="ak-desc">貸切のご利用も可能です。ご相談は公式LINEから承ります。</p>';
+    inner+='<div class="ak-cta"><a class="btn btn-fill" href="'+(LINE_URL||'#')+'" target="_blank" rel="noopener">公式LINEで相談する</a></div>';
   }else{
     var urlA=STORES['aiseki_'+BAND_KEY[t.band]];
-    inner+='<p class="ak-tag">おひとり参加レッスン</p>';
-    inner+='<p class="ak-name">'+gemSvg('rsv-gem')+'あなたは【'+t.band+'】スタートです</p>';
+    var pn=PLAN_INFO[t.band];
+    inner+='<p class="ak-tag">グループレッスン(2〜4名)</p>';
+    inner+='<p class="ak-name">'+gemSvg('rsv-gem')+pn.name+'</p>';
     inner+='<p class="ak-desc">ひとりで来ても、同じレベルの仲間と、トレーナーのサポートつきで卓を囲めるレッスンです(定員4名)。</p>';
     inner+='<p class="ak-desc">正式なクラスは、初回レッスンの終わりにトレーナーが認定します。</p>';
-    inner+='<p class="ak-price">¥1,650〜/1人・1時間(成立人数により当日精算)</p>';
+    inner+='<p class="ak-price">'+pn.price+'(1人・2時間・税込)<br><small style="font-weight:500">4名でのご参加なら1人500円引きです</small></p>';
     inner+='<div class="ak-cta">'+(urlA?('<a class="btn btn-fill" href="'+urlA+'" target="_blank" rel="noopener">開催予定の会に参加する</a>'):'<span class="ak-soon">この枠の予約ページは準備中です。公開まで少々お待ちください。</span>');
     inner+='<p class="ask-note" style="margin-top:10px">お申込みの時点では「仮」のお申込みです。同じ会に2名さま以上集まると開催決定となります(最終判定は2日前17:00・開催の有無はいずれの場合もご連絡します)。開催が決まった会には、前日23:00まで追加でご参加いただけます。</p></div>';
   }
@@ -319,8 +337,8 @@ function render(){
     var nq=nextQFirst(s);
     if(nq){
       var note='';
-      if(nq==='2'){
-        note='<p class="ask-note" style="margin-top:16px">※男性を含むグループは貸切のみのご案内です(<a href="index.html#charter">お問い合わせ</a>へ)。</p>';
+      if(nq==='1'){
+        note='<p class="ask-note" style="margin-top:16px">※男性を含むグループは「貸切・パーティーで利用したい」からお選びください。</p>';
       }
       renderQuestion(nq,QDATA,note);
     }
