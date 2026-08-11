@@ -16,10 +16,14 @@ const REQUIRED_STRINGS = [
   '2,640','23:30','徹マンCAMP','風営法','COMING SOON'
 ];
 // ▼▼ v22.2確定版:禁止文字列(全6ページで0件) ▼▼
+// ▼▼ v24.1で追加:旧STORESドメイン・旧ページID ▼▼
 const FORBIDDEN_STRINGS = [
   '3,960','10,560','13,200','3,300円','4,400円','6,600円',
-  '前日17:00','前日24:00','会をつくる','講習パック','tel:','電話','翌8:00','23:00(毎日5枠','登録料'
+  '前日17:00','前日24:00','会をつくる','講習パック','tel:','電話','翌8:00','23:00(毎日5枠','登録料',
+  'jouermahjongsalonshi','4476109','4858901','2841471'
 ];
+// ▼▼ v24.1確定版:reserve.html専用の必須文字列(新STORESドメイン・新ページID) ▼▼
+const RESERVE_REQUIRED_STRINGS = ['jouer-shibuya.stores.jp','2307698','4335449','1737267'];
 
 for (const s of REQUIRED_STRINGS) {
   if (!siteText.includes(s)) { console.error(`NG 必須文字列が見つからない: ${s}`); ok = false; }
@@ -64,6 +68,9 @@ for (const f of pages) {
     checks.push([/instagram\.com\/jouer\.mahjong/.test(html), 'Instagram本番URLが見つからない']);
   }
   if (f === 'reserve.html') {
+    for (const s of RESERVE_REQUIRED_STRINGS) {
+      checks.push([html.includes(s), `reserve.html必須文字列が見つからない: ${s}`]);
+    }
     checks.push([/GAS_URL/.test(html), 'GAS_URL設定が見つからない']);
     checks.push([/aiseki_beg:\s*'[^']+'/.test(html), 'STORES.aiseki_begが空です']);
     checks.push([/aiseki_mid:\s*'[^']+'/.test(html), 'STORES.aiseki_midが空です']);
