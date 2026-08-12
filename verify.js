@@ -13,14 +13,16 @@ const REQUIRED_STRINGS = [
   '2日前17:00','前日23:00','5日前17:00',
   '1,320','2,630','3,130','3,790','6,790','660','550','最大3時間','lin.ee/qetP6h9',
   '麻雀女子デビュープラン','レベルアッププラン','マスタープラン','グループレッスン','セット利用',
-  '2,640','23:30','徹マンCAMP','風営法','COMING SOON'
+  '2,640','23:30','徹マンCAMP','風営法','COMING SOON',
+  '4名割の内訳','4名そろうと1人','3ステップ',
 ];
 // ▼▼ v22.2確定版:禁止文字列(全6ページで0件) ▼▼
 // ▼▼ v24.1で追加:旧STORESドメイン・旧ページID ▼▼
 const FORBIDDEN_STRINGS = [
   '3,960','10,560','13,200','3,300円','4,400円','6,600円',
   '前日17:00','前日24:00','会をつくる','講習パック','tel:','電話','翌8:00','23:00(毎日5枠','登録料',
-  'jouermahjongsalonshi','4476109','4858901','2841471'
+  'jouermahjongsalonshi','4476109','4858901','2841471',
+  'ペナルティ','不成立','となっております',
 ];
 // ▼▼ v24.1確定版:reserve.html専用の必須文字列(新STORESドメイン・新ページID) ▼▼
 const RESERVE_REQUIRED_STRINGS = ['jouer-shibuya.stores.jp','2307698','4335449','1737267'];
@@ -54,6 +56,10 @@ for (const f of pages) {
     checks.push([!/set_beg|set_mid|set_adv/.test(html), '旧STORESキー(set_beg等)が残存']);
     checks.push([!/id="ask/.test(html)&&!/class="ask-opts/.test(html), '料金ページに診断UIが残存(reserve.htmlへ移設済みのはず)']);
     checks.push([!/GAS_URL/.test(html), '料金ページにGAS_URLが残存(reserve.htmlへ移設済みのはず)']);
+    checks.push([!/dd class="total"/.test(html), '旧内訳dl(dd class="total")が残存(v25でカード1行内訳に簡素化済み)']);
+    checks.push([!/通常5,000円・4名割で4,500円/.test(html), '削除済みの料金復唱パラグラフが残存(v25)']);
+    checks.push([!/初心者マンツーマンは1時間5,000円/.test(html), '削除済みのマンツーマン重複注記が残存(v25)']);
+    checks.push([/4名割の内訳/.test(html), '4名割ボックスの内訳行が見つからない(v25)']);
   }
   if (f === 'access.html') {
     checks.push([/share\.google\/EX7jSMPCL6X9i9RC0/.test(html), 'Googleマップ共有リンクが見つからない']);
@@ -105,27 +111,40 @@ for (const [h, key, name] of [
   if (!h.includes(key)) { console.error(`NG 先祖返りの疑い: ${name} が見つからない`); ok = false; }
 }
 
-// 内訳算術チェック: 卓料金+トレーナー料金+飲み放題 = 表示総額(グループレッスン・マンツーマン全プラン)
+// 内訳算術チェック(v25形式)
 const num = s => parseInt(String(s).replace(/,/g, ''), 10);
 const priceHtml = allHtml['price.html'];
-let breakdownCount = 0;
-const dlRe = /卓([\d,]+)\+トレーナー([\d,]+)\+飲み放題([\d,]+)<\/dd>\s*<dd class="total"><span data-yen="(\d+)">/g;
+let cardCount = 0, tdCount = 0;
 let bm;
-while ((bm = dlRe.exec(priceHtml))) {
-  const sum = num(bm[1]) + num(bm[2]) + num(bm[3]);
-  const total = num(bm[4]);
-  if (sum !== total) { console.error(`NG price.html: 内訳合計不一致 卓${bm[1]}+トレーナー${bm[2]}+飲み放題${bm[3]}=${sum} ≠ 表示${total}`); ok = false; }
-  breakdownCount++;
+// ① グループレッスン3カード: plan-price(総額) → plan-tag → 内訳1行
+const cardRe = /<p class="plan-price"><span data-yen="(\d+)">[^<]+<\/span><small>[^<]*<\/small><\/p>\s*<span class="plan-tag">[^<]*<\/span>\s*<p class="ask-note"[^>]*>内訳:卓([\d,]+)\+トレーナー([\d,]+)\+飲み放題([\d,]+)/g;
+while ((bm = cardRe.exec(priceHtml))) {
+  const total = num(bm[1]);
+  const sum = num(bm[2]) + num(bm[3]) + num(bm[4]);
+  if (sum !== total) { console.error(`NG price.html: カード内訳不一致 卓${bm[2]}+トレーナー${bm[3]}+飲み放題${bm[4]}=${sum} ≠ 表示${total}`); ok = false; }
+  cardCount++;
 }
+if (cardCount !== 3) { console.error(`NG price.html: グループレッスンのカード内訳が3件検出できません(${cardCount}件)`); ok = false; }
+// ② マンツーマン2カード(td形式・v23から不変)
 const tdRe = /<td><span class="yen" data-yen="(\d+)">.*?<small>卓([\d,]+)\+トレーナー([\d,]+)\+飲み放題([\d,]+)/g;
 while ((bm = tdRe.exec(priceHtml))) {
   const total = num(bm[1]);
   const sum = num(bm[2]) + num(bm[3]) + num(bm[4]);
   if (sum !== total) { console.error(`NG price.html: 内訳合計不一致 卓${bm[2]}+トレーナー${bm[3]}+飲み放題${bm[4]}=${sum} ≠ 表示${total}`); ok = false; }
-  breakdownCount++;
+  tdCount++;
 }
-if (breakdownCount < 8) { console.error(`NG price.html: 料金内訳の検出数が想定(8件:グループレッスン3プラン×2+マンツーマン2)を下回っています(${breakdownCount}件)`); ok = false; }
-// セット利用: 卓料金2,640円は660円(マンツーマンの卓料金/人)×4名分と整合
+if (tdCount !== 2) { console.error(`NG price.html: マンツーマンの内訳が2件検出できません(${tdCount}件)`); ok = false; }
+// ③ 4名割ボックスの内訳(2パターン・卓+トレーナー+飲み放題=総額)
+for (const [re, name] of [
+  [/4名割の内訳:デビュー=卓([\d,]+)\+トレーナー([\d,]+)\+飲み放題([\d,]+)=([\d,]+)円/, 'デビュー4名割'],
+  [/レベルアップ・マスター=卓([\d,]+)\+トレーナー([\d,]+)\+飲み放題([\d,]+)=([\d,]+)円/, 'レベルアップ・マスター4名割'],
+]) {
+  const m = priceHtml.match(re);
+  if (!m) { console.error(`NG price.html: ${name}の内訳行が見つからない`); ok = false; continue; }
+  const sum = num(m[1]) + num(m[2]) + num(m[3]);
+  if (sum !== num(m[4])) { console.error(`NG price.html: ${name} 内訳不一致 ${sum} ≠ ${m[4]}`); ok = false; }
+}
+// セット利用: 卓料金2,640円は660円×4名分と整合
 if (2640 !== 660 * 4) { console.error('NG セット利用の卓料金(2,640円)が660円×4名と一致しません'); ok = false; }
 
 console.log(ok ? '✓ 全チェック通過' : '✗ 修正が必要です');
