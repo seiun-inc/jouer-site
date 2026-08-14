@@ -17,6 +17,7 @@ const REQUIRED_STRINGS = [
   '4名割の内訳','4名そろうと1人','3ステップ',
   '楽しみ方は、みっつ。','麻雀がはじめての方へ','ルールは知ってる方へ','もっと勝ちたい方へ',
   'どのプランにするか迷ったら','タップでスキップ','PRIVATE','レベル別全3プラン',
+  '合計2,000円おトク','plan-tag deal','sns-ico',
 ];
 // ▼▼ v22.2確定版:禁止文字列(全6ページで0件) ▼▼
 // ▼▼ v24.1で追加:旧STORESドメイン・旧ページID ▼▼
@@ -26,6 +27,7 @@ const FORBIDDEN_STRINGS = [
   'jouermahjongsalonshi','4476109','4858901','2841471',
   'ペナルティ','不成立','となっております',
   'いちばん人気','楽しみ方は、ふたつ','TAP TO SKIP','CHARTER',
+  'inline-block">まずは',
 ];
 // ▼▼ v24.1確定版:reserve.html専用の必須文字列(新STORESドメイン・新ページID) ▼▼
 const RESERVE_REQUIRED_STRINGS = ['jouer-shibuya.stores.jp','2307698','4335449','1737267'];
@@ -53,6 +55,7 @@ for (const f of pages) {
     [/<a class="cta[^"]*"\s+href="reserve\.html">/.test(html), 'ヘッダーにreserve.htmlへのCTAが見つからない'],
     [!/price\.html#find/.test(html), '旧#findアンカーへの参照が残存'],
     [!/相席レッスン|トレーナー付きレッスン/.test(html.replace(/<!--[\s\S]*?-->/g, '')), '旧プラン名(相席レッスン/トレーナー付きレッスン)がお客様向けテキストに残存'],
+    [/class="sns"/.test(html), 'ヘッダーSNSアイコンが見つからない(v27)'],
   ];
   if (f !== 'recruit.html') {
     checks.push([!/mailto:/.test(html), 'メールリンクが残存(v26でサイト表記から削除。採用ページのみ可)']);
@@ -124,7 +127,7 @@ const priceHtml = allHtml['price.html'];
 let cardCount = 0, tdCount = 0;
 let bm;
 // ① グループレッスン3カード: plan-price(総額) → plan-tag → 内訳1行
-const cardRe = /<p class="plan-price"><span data-yen="(\d+)">[^<]+<\/span><small>[^<]*<\/small><\/p>\s*<span class="plan-tag">[^<]*<\/span>\s*<p class="ask-note"[^>]*>内訳:卓([\d,]+)\+トレーナー([\d,]+)\+飲み放題([\d,]+)/g;
+const cardRe = /<p class="plan-price"><span data-yen="(\d+)">[^<]+<\/span><small>[^<]*<\/small><\/p>\s*<span class="plan-tag(?: deal)?">[^<]*<\/span>\s*<p class="ask-note"[^>]*>内訳:卓([\d,]+)\+トレーナー([\d,]+)\+飲み放題([\d,]+)/g;
 while ((bm = cardRe.exec(priceHtml))) {
   const total = num(bm[1]);
   const sum = num(bm[2]) + num(bm[3]) + num(bm[4]);
