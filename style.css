@@ -370,7 +370,7 @@ html:not(.js) .a-wrap{grid-template-rows:1fr}
 .cta-band{background:var(--pink-bg);text-align:center;position:relative;overflow:hidden;border-top:1px solid var(--line)}
 .cta-band .mini-mark{width:66px;height:66px;margin:0 auto 20px;animation:breath 6s ease-in-out infinite}
 @keyframes breath{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
-.cta-band .cb-ttl{font-family:var(--disp);font-weight:700;font-size:clamp(22px,3.4vw,29px);letter-spacing:.12em;margin-bottom:16px}
+.cta-band .cb-ttl{font-family:var(--disp);font-weight:700;font-size:clamp(22px,3.4vw,29px);letter-spacing:.12em;margin-bottom:16px;white-space:nowrap}
 .cta-band p{max-width:520px;margin:0 auto 30px;color:#4a4145;font-size:14.5px}
 
 /* ══ footer ══ */
@@ -470,6 +470,21 @@ footer a{color:#f5eef1}
 .plan-tag{display:inline-block;font-size:11px;letter-spacing:.14em;color:var(--rose-deep);background:var(--pink-soft);border:1px solid var(--pink-mid);border-radius:999px;padding:2px 13px;margin-bottom:12px}
 .plan .pn{font-family:var(--disp);font-weight:700;font-size:19px;letter-spacing:.12em;margin-bottom:8px}
 .rec+.pn{margin-top:16px}
+
+/* v27: CTAタイトルはモバイルでも1行(文字サイズで吸収) */
+@media(max-width:560px){.cta-band .cb-ttl{font-size:clamp(15px,4.8vw,22px);letter-spacing:.06em}}
+/* v27: プランカードの価格位置を揃える(3列表示時のみ。サブコピー2行分の高さを確保) */
+@media(min-width:821px){.plan .pcopy{min-height:calc(1.9em * 2)}}
+/* v27: 4名割タグの強調 */
+.plan-tag.deal{background:var(--rose);color:#fff;border-color:var(--rose);font-weight:600;letter-spacing:.12em}
+/* v27: SNSアイコン */
+.sns-ico{width:16px;height:16px;vertical-align:-3px;margin-right:4px}
+.sns-ico.ig{color:#E4405F}
+.sns-ico.ln{color:#06C755}
+.gnav a.sns{display:inline-flex;align-items:center;padding:8px 6px}
+.gnav a.sns::after{display:none}
+.gnav a.sns .sns-ico{width:19px;height:19px;margin-right:0;vertical-align:0}
+
 .plan .pcopy{font-size:13.5px;color:#4a4145;line-height:1.9}
 .plan-price{margin-top:12px;font-family:var(--disp);font-weight:700;font-size:22px;color:var(--rose-deep);letter-spacing:.04em}
 .plan-price small{font-family:var(--body);font-weight:400;font-size:11.5px;color:var(--gray);margin-left:6px;letter-spacing:.04em}
