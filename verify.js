@@ -15,6 +15,8 @@ const REQUIRED_STRINGS = [
   '麻雀女子デビュープラン','レベルアッププラン','マスタープラン','グループレッスン','セット利用',
   '2,640','23:30','徹マンCAMP','風営法','COMING SOON',
   '4名割の内訳','4名そろうと1人','3ステップ',
+  '楽しみ方は、みっつ。','麻雀がはじめての方へ','ルールは知ってる方へ','もっと勝ちたい方へ',
+  'どのプランにするか迷ったら','タップでスキップ','PRIVATE','レベル別全3プラン',
 ];
 // ▼▼ v22.2確定版:禁止文字列(全6ページで0件) ▼▼
 // ▼▼ v24.1で追加:旧STORESドメイン・旧ページID ▼▼
@@ -23,6 +25,7 @@ const FORBIDDEN_STRINGS = [
   '前日17:00','前日24:00','会をつくる','講習パック','tel:','電話','翌8:00','23:00(毎日5枠','登録料',
   'jouermahjongsalonshi','4476109','4858901','2841471',
   'ペナルティ','不成立','となっております',
+  'いちばん人気','楽しみ方は、ふたつ','TAP TO SKIP','CHARTER',
 ];
 // ▼▼ v24.1確定版:reserve.html専用の必須文字列(新STORESドメイン・新ページID) ▼▼
 const RESERVE_REQUIRED_STRINGS = ['jouer-shibuya.stores.jp','2307698','4335449','1737267'];
@@ -51,6 +54,9 @@ for (const f of pages) {
     [!/price\.html#find/.test(html), '旧#findアンカーへの参照が残存'],
     [!/相席レッスン|トレーナー付きレッスン/.test(html.replace(/<!--[\s\S]*?-->/g, '')), '旧プラン名(相席レッスン/トレーナー付きレッスン)がお客様向けテキストに残存'],
   ];
+  if (f !== 'recruit.html') {
+    checks.push([!/mailto:/.test(html), 'メールリンクが残存(v26でサイト表記から削除。採用ページのみ可)']);
+  }
   if (f === 'price.html') {
     checks.push([!/¥3,850\s*\/\s*卓/.test(html), '旧コーチング料表記(¥3,850/卓)が残存']);
     checks.push([!/set_beg|set_mid|set_adv/.test(html), '旧STORESキー(set_beg等)が残存']);
@@ -60,6 +66,7 @@ for (const f of pages) {
     checks.push([!/通常5,000円・4名割で4,500円/.test(html), '削除済みの料金復唱パラグラフが残存(v25)']);
     checks.push([!/初心者マンツーマンは1時間5,000円/.test(html), '削除済みのマンツーマン重複注記が残存(v25)']);
     checks.push([/4名割の内訳/.test(html), '4名割ボックスの内訳行が見つからない(v25)']);
+    checks.push([/どのプランにするか迷ったら/.test(html), 'プラン選択ミニガイドが見つからない(v26)']);
   }
   if (f === 'access.html') {
     checks.push([/share\.google\/EX7jSMPCL6X9i9RC0/.test(html), 'Googleマップ共有リンクが見つからない']);
