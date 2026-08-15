@@ -7,6 +7,10 @@ const allHtml = {};
 for (const f of pages) allHtml[f] = fs.readFileSync(f, 'utf8');
 const siteText = pages.map(f => allHtml[f]).join('\n');
 
+for (const pf of ['robots.txt', 'sitemap.xml', 'og-image.jpg']) {
+  if (!fs.existsSync(pf)) { console.error(`NG 公開必須ファイルが存在しない: ${pf}`); ok = false; }
+}
+
 // ▼▼ v22.2確定版:必須文字列(全ページ横断で存在すればOK) ▼▼
 const REQUIRED_STRINGS = [
   '5,000円','4,500円','4,000円','8,000円','500円引き',
@@ -19,6 +23,7 @@ const REQUIRED_STRINGS = [
   'どのプランにするか迷ったら','タップでスキップ','PRIVATE','レベル別全3プラン',
   '合計2,000円おトク','plan-tag deal','sns-ico',
   '660×2時間','660円/人/1時間',
+  'og-image.jpg','rel="canonical"','summary_large_image',
 ];
 // ▼▼ v22.2確定版:禁止文字列(全6ページで0件) ▼▼
 // ▼▼ v24.1で追加:旧STORESドメイン・旧ページID ▼▼
@@ -30,6 +35,7 @@ const FORBIDDEN_STRINGS = [
   'いちばん人気','楽しみ方は、ふたつ','TAP TO SKIP','CHARTER',
   'inline-block">まずは',
   '内訳:卓1,320',
+  'noindex',
 ];
 // ▼▼ v24.1確定版:reserve.html専用の必須文字列(新STORESドメイン・新ページID) ▼▼
 const RESERVE_REQUIRED_STRINGS = ['jouer-shibuya.stores.jp','2307698','4335449','1737267'];
@@ -52,7 +58,7 @@ for (const f of pages) {
     [!/id="snd"/.test(html), '削除済みの効果音ボタンが復活している'],
     [!/%%(CSS|JS|LOGO|PHOTO)%%/.test(html), '未解決のテンプレートトークン'],
     [!/13:00\s*–\s*翌1:00/.test(html), '旧営業時間表記(13:00 – 翌1:00)が残存'],
-    [/noindex/.test(html), '公開前ガード: noindexが見つからない(公開直前に意図して削除した場合はOK)'],
+    [!/noindex/.test(html), '公開済みサイトにnoindexが残存(v28で全ページ削除済み)'],
     [!/定休/.test(html), '「定休」表記が残存(定休日はなしになったため削除対象)'],
     [/<a class="cta[^"]*"\s+href="reserve\.html">/.test(html), 'ヘッダーにreserve.htmlへのCTAが見つからない'],
     [!/price\.html#find/.test(html), '旧#findアンカーへの参照が残存'],
