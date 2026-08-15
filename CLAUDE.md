@@ -67,7 +67,8 @@
 
 正式公開の直前に、以下を確認・実施する:
 
-- [ ] 全6ページの `<meta name="robots" content="noindex,nofollow">`(`<!-- ▼▼ 正式公開時にこの1行を削除 ▼▼ -->` マーカー付き)を削除
+- [x] 全6ページの `<meta name="robots" content="noindex,nofollow">`(`<!-- ▼▼ 正式公開時にこの1行を削除 ▼▼ -->` マーカー付き)を削除:2026-08-14公開(開業3日前の意図的前倒し。インデックス反映リードタイム確保のため)
+- [ ] Search Console登録:なみ手作業(ドメインプロパティ登録・DNS TXTレコード追加・sitemap.xml送信・URL検査)。コード側の対応は完了(robots.txt/sitemap.xml/canonical/OG画像)
 - [x] reserve.html の STORES予約URL:グループレッスン3帯(`aiseki_beg`=麻雀女子デビュープラン/`aiseki_mid`=レベルアッププラン/`aiseki_adv`=マスタープラン。キー名はレガシーだが変更しない)のみ。マンツーマン・セット利用・貸切・CAMPのサイト導線は廃止(v21)。ドメイン・ページIDはv24.1で`jouer-shibuya.stores.jp`+新IDに全面差し替え済み
 - [x] 公式LINEリンク:実物に差し替え済み(`LINE_URL`=`https://lin.ee/qetP6h9`。reserve.htmlの終端①LINEボタン・全終端共通の「迷ったら公式LINEで」、price.html/faq.htmlのテキストリンクに反映)
 - [x] 問い合わせ先メール:実物化済み(`info@jouer-mahjong.com`)
