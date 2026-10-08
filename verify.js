@@ -11,19 +11,15 @@ for (const pf of ['robots.txt', 'sitemap.xml', 'og-image.jpg']) {
   if (!fs.existsSync(pf)) { console.error(`NG 公開必須ファイルが存在しない: ${pf}`); ok = false; }
 }
 
-// ▼▼ v22.2確定版:必須文字列(全ページ横断で存在すればOK) ▼▼
+// ▼▼ v30確定版(2026-10料金改定):必須文字列(全ページ横断で存在すればOK) ▼▼
 const REQUIRED_STRINGS = [
-  '5,000円','4,500円','4,000円','8,000円','500円引き',
-  '2日前17:00','前日23:00','5日前17:00',
-  '1,320','2,630','3,130','3,790','6,790','660','550','最大3時間','lin.ee/qetP6h9',
-  '麻雀女子デビュープラン','レベルアッププラン','マスタープラン','グループレッスン','セット利用',
-  '2,640','23:30',
-  '賭け事・タバコ・深夜営業は、jouerにはありません','麻雀教室','経験者向け・卓のみの利用','トレーナーはどんなことをしてくれますか',
-  '4名割の内訳','4名そろうと1人','3ステップ',
-  '楽しみ方は、みっつ。','麻雀がはじめての方へ','ルールは知ってる方へ','もっと勝ちたい方へ',
-  'どのプランにするか迷ったら','タップでスキップ','PRIVATE','レベル別全3プラン',
-  '合計2,000円おトク','plan-tag deal','sns-ico',
-  '660×2時間','660円/人/1時間',
+  '初回体験プラン','通常レッスンプラン','女子会プラン','経験者向け・卓のみの利用',
+  '1,000','4,500','2,000','6,000','3,000','1,200','600','300','550','500',
+  'お友だち割','紹介割','SNS・口コミ割','割引の併用はできません',
+  '卓単位','ドリンク付き','デビュー','レベルアップ','マスター',
+  'ノーレート','賭け事なし','公式LINE','10:00','23:30',
+  '賭け事・タバコ・深夜営業は、jouerにはありません','麻雀教室',
+  'どのプランにするか迷ったら','タップでスキップ','楽しみ方は、みっつ。',
   'og-image.jpg','rel="canonical"','summary_large_image',
 ];
 // ▼▼ v22.2確定版:禁止文字列(全6ページで0件) ▼▼
@@ -38,15 +34,21 @@ const FORBIDDEN_STRINGS = [
   'inline-block">まずは',
   '内訳:卓1,320',
   'noindex',
+  // ▼▼ v30追加:2026-10料金改定で撤去した旧体系 ▼▼
+  'マンツーマン','指名','4名割','4名そろうと','合計2,000円おトク',
+  '2,640','1,320','3,130','2,630','3,790','6,790','8,000','5,000円','¥5,000',
+  '貸切','PRIVATE','stores.jp','STORES','仮申込み','開催決定',
+  '2日前17:00','5日前17:00','内訳:卓','660×2時間','660円/人/1時間','毎日5枠',
 ];
-// ▼▼ v24.1確定版:reserve.html専用の必須文字列(新STORESドメイン・新ページID) ▼▼
-const RESERVE_REQUIRED_STRINGS = ['jouer-shibuya.stores.jp','2307698','4335449','1737267'];
+// 禁止語の例外(ページ限定)。貸切は提供終了としたが、FAQで「貸切可能・公式LINEへお問い合わせ」と案内するためfaq.htmlのみ許可(なみ回答 2026-10-08)
+const FORBIDDEN_EXEMPT = { '貸切': ['faq.html'] };
 
 for (const s of REQUIRED_STRINGS) {
   if (!siteText.includes(s)) { console.error(`NG 必須文字列が見つからない: ${s}`); ok = false; }
 }
 for (const s of FORBIDDEN_STRINGS) {
   for (const f of pages) {
+    if ((FORBIDDEN_EXEMPT[s] || []).includes(f)) continue;
     if (allHtml[f].includes(s)) { console.error(`NG ${f}: 禁止文字列「${s}」が残存`); ok = false; }
   }
 }
@@ -78,7 +80,6 @@ for (const f of pages) {
     checks.push([!/dd class="total"/.test(html), '旧内訳dl(dd class="total")が残存(v25でカード1行内訳に簡素化済み)']);
     checks.push([!/通常5,000円・4名割で4,500円/.test(html), '削除済みの料金復唱パラグラフが残存(v25)']);
     checks.push([!/初心者マンツーマンは1時間5,000円/.test(html), '削除済みのマンツーマン重複注記が残存(v25)']);
-    checks.push([/4名割の内訳/.test(html), '4名割ボックスの内訳行が見つからない(v25)']);
     checks.push([/どのプランにするか迷ったら/.test(html), 'プラン選択ミニガイドが見つからない(v26)']);
   }
   if (f === 'access.html') {
@@ -94,24 +95,17 @@ for (const f of pages) {
     checks.push([/instagram\.com\/jouer\.mahjong/.test(html), 'Instagram本番URLが見つからない']);
   }
   if (f === 'reserve.html') {
-    for (const s of RESERVE_REQUIRED_STRINGS) {
-      checks.push([html.includes(s), `reserve.html必須文字列が見つからない: ${s}`]);
-    }
-    checks.push([/GAS_URL/.test(html), 'GAS_URL設定が見つからない']);
-    checks.push([/aiseki_beg:\s*'[^']+'/.test(html), 'STORES.aiseki_begが空です']);
-    checks.push([/aiseki_mid:\s*'[^']+'/.test(html), 'STORES.aiseki_midが空です']);
-    checks.push([/aiseki_adv:\s*'[^']+'/.test(html), 'STORES.aiseki_advが空です']);
-    checks.push([!/aiseki_create|\bcoach:|\bcamp:/.test(html), '廃止済みSTORESキー(aiseki_create/coach/camp)が残存']);
+    // v30: 予約は公式LINEのみ。診断UI・GAS送信・STORES導線は廃止
+    checks.push([/href="https:\/\/lin\.ee\/qetP6h9"/.test(html), '公式LINEへの予約ボタン(lin.ee/qetP6h9)が見つからない(v30)']);
+    checks.push([/公式LINEで予約する/.test(html), '「公式LINEで予約する」ボタンが見つからない(v30)']);
+    checks.push([!/GAS_URL|QDATA|RDATA|rsvBody|rsvStage/.test(html), '廃止済みの予約診断UI/GAS送信コードが残存(v30)']);
     checks.push([!/PHONE_TEL/.test(html), 'PHONE_TEL機構が残存(v21で撤去済み)']);
-    checks.push([/LINE_URL\s*=\s*'[^']+'/.test(html), 'LINE_URLが空です']);
-    checks.push([/はじめてご利用の方/.test(html), '「はじめてご利用の方」が見つからない']);
-    checks.push([/メニューをえらぶ/.test(html), '「メニューをえらぶ」が見つからない']);
-    checks.push([!/認定ランクで予約する/.test(html), '旧文言「認定ランクで予約する」が残存']);
-    checks.push([!/レベル診断がまだの方/.test(html), '旧文言「レベル診断がまだの方」が残存']);
   }
   if (f === 'faq.html') {
     checks.push([/持ち物や服装/.test(html), 'FAQ「持ち物や服装」が見つからない']);
-    checks.push([/キャンセルはできますか/.test(html), 'FAQ「キャンセルはできますか」が見つからない']);
+    checks.push([/女子会プランとレッスンの違いは何ですか/.test(html), 'FAQ「女子会プランとレッスンの違い」が見つからない(v30)']);
+    checks.push([/初回体験プランのあとは、どうすればいいですか/.test(html), 'FAQ「初回体験プランのあと」が見つからない(v30)']);
+    checks.push([!/キャンセルはできますか/.test(html), '撤去済みのFAQ「キャンセルはできますか」が残存(v30)']);
   }
   for (const [pass, msg] of checks) {
     if (!pass) { console.error(`NG ${f}: ${msg}`); ok = false; }
@@ -123,50 +117,19 @@ for (const f of pages) {
 try { new Function(fs.readFileSync('app.js','utf8')); }
 catch (e) { console.error(`NG app.js: 構文エラー: ${e.message}`); ok = false; }
 
-// 先祖返りチェック(重要コンテンツの残存)
-const rsv = allHtml['reserve.html'];
-for (const [h, key, name] of [
-  [rsv, 'STORES={', 'STORES予約URL設定表'],
-]) {
-  if (!h.includes(key)) { console.error(`NG 先祖返りの疑い: ${name} が見つからない`); ok = false; }
+// 料金整合(2026-10体系・固定値検算)
+const PH = allHtml['price.html'];
+const fixed = [
+  [6000/2===3000,'女子会トレーナーあり30分は1時間の半額(3,000)'],
+  [1200/2===600,'女子会トレーナーなし30分は1時間の半額(600)'],
+  [1200/4===300,'セット・女子会なし4名の1人目安(300)'],
+  [6000/4===1500,'女子会あり4名の1人目安(1,500)'],
+  [6000/3===2000,'女子会あり3名の1人目安(2,000)'],
+];
+for (const [cond,msg] of fixed) if(!cond){console.error('NG 料金整合: '+msg);ok=false;}
+for (const s of ['6,000円/卓','3,000円/卓','1,200円/卓','600円/卓','4名で1,500円','3名で2,000円','4名で300円']) {
+  if (!PH.includes(s)) { console.error('NG price.html: 女子会/セット表記欠落: '+s); ok=false; }
 }
-
-// 内訳算術チェック(v25形式)
-const num = s => parseInt(String(s).replace(/,/g, ''), 10);
-const priceHtml = allHtml['price.html'];
-let cardCount = 0, tdCount = 0;
-let bm;
-// ① グループレッスン3カード: plan-price(総額) → plan-tag → 内訳1行
-const cardRe = /<p class="plan-price"><span data-yen="(\d+)">[^<]+<\/span><small>[^<]*<\/small><\/p>\s*<span class="plan-tag(?: deal)?">[^<]*<\/span>\s*<p class="ask-note"[^>]*>内訳:卓([\d,]+)×2時間=([\d,]+)\+トレーナー([\d,]+)\+飲み放題([\d,]+)/g;
-while ((bm = cardRe.exec(priceHtml))) {
-  const total = num(bm[1]);
-  if (num(bm[2]) * 2 !== num(bm[3])) { console.error(`NG price.html: 卓料金の時間計算不一致 ${bm[2]}×2 ≠ ${bm[3]}`); ok = false; }
-  const sum = num(bm[3]) + num(bm[4]) + num(bm[5]);
-  if (sum !== total) { console.error(`NG price.html: カード内訳不一致 卓${bm[3]}+トレーナー${bm[4]}+飲み放題${bm[5]}=${sum} ≠ 表示${total}`); ok = false; }
-  cardCount++;
-}
-if (cardCount !== 3) { console.error(`NG price.html: グループレッスンのカード内訳が3件検出できません(${cardCount}件)`); ok = false; }
-// ② マンツーマン2カード(td形式・v23から不変)
-const tdRe = /<td><span class="yen" data-yen="(\d+)">.*?<small>卓([\d,]+)\+トレーナー([\d,]+)\+飲み放題([\d,]+)/g;
-while ((bm = tdRe.exec(priceHtml))) {
-  const total = num(bm[1]);
-  const sum = num(bm[2]) + num(bm[3]) + num(bm[4]);
-  if (sum !== total) { console.error(`NG price.html: 内訳合計不一致 卓${bm[2]}+トレーナー${bm[3]}+飲み放題${bm[4]}=${sum} ≠ 表示${total}`); ok = false; }
-  tdCount++;
-}
-if (tdCount !== 2) { console.error(`NG price.html: マンツーマンの内訳が2件検出できません(${tdCount}件)`); ok = false; }
-// ③ 4名割ボックスの内訳(2パターン・卓+トレーナー+飲み放題=総額)
-for (const [re, name] of [
-  [/4名割の内訳:デビュー=卓([\d,]+)\+トレーナー([\d,]+)\+飲み放題([\d,]+)=([\d,]+)円/, 'デビュー4名割'],
-  [/レベルアップ・マスター=卓([\d,]+)\+トレーナー([\d,]+)\+飲み放題([\d,]+)=([\d,]+)円/, 'レベルアップ・マスター4名割'],
-]) {
-  const m = priceHtml.match(re);
-  if (!m) { console.error(`NG price.html: ${name}の内訳行が見つからない`); ok = false; continue; }
-  const sum = num(m[1]) + num(m[2]) + num(m[3]);
-  if (sum !== num(m[4])) { console.error(`NG price.html: ${name} 内訳不一致 ${sum} ≠ ${m[4]}`); ok = false; }
-}
-// セット利用: 卓料金2,640円は660円×4名分と整合
-if (2640 !== 660 * 4) { console.error('NG セット利用の卓料金(2,640円)が660円×4名と一致しません'); ok = false; }
 
 console.log(ok ? '✓ 全チェック通過' : '✗ 修正が必要です');
 process.exit(ok ? 0 : 1);
