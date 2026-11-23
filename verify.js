@@ -81,6 +81,10 @@ for (const f of pages) {
     [/href="tel:0368051928"/.test(html), 'フッターの電話番号リンク(tel:0368051928)が見つからない(v31)'],
     [!/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/u.test(html), '絵文字が残存(v31で全廃)'],
   ];
+  if (f === 'recruit.html') {
+    checks.push([/1,300円〜1,800円\(経験・スキルにより優遇\)/.test(html), '採用ページの時給表記(1,300円〜1,800円)が見つからない(v31.2)']);
+    checks.push([!/¥1,800 〜/.test(html), '旧時給表記(¥1,800 〜)が残存(v31.2)']);
+  }
   if (f !== 'recruit.html') {
     checks.push([!/mailto:/.test(html), 'メールリンクが残存(v26でサイト表記から削除。採用ページのみ可)']);
   }
