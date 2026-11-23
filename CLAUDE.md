@@ -63,6 +63,7 @@
 - 現在「仮」の項目: なし(徹マンCAMPは2026-09-11に非公開化。ドリンク単品は店頭表記で確定)
 - 問い合わせ手段はInstagram・公式LINE・電話(v31追加)(v26でサイト表記からメールを削除。info@jouer-mahjong.comはSTORES・Googleビジネスプロフィール等の登録用および採用応募窓口(recruit.html)として存続)
 - 絵文字は使わない(v31で全廃。verify.jsで禁止)
+- 対応言語は日本語のみ(2026-11-23・v31.1)。index.htmlヒーロー直下・reserve.htmlボタン直下・faq.htmlに英文の案内(`lang="en"`、文言固定: Please note: all lessons and in-store assistance are provided in Japanese only. / We are unable to assist in English or other languages. / Thank you for your understanding.)を掲載。英文は変えない・増やさない(全ページfooterには入れない)
 - 文体はfaq.htmlを基準トーンとする。冒頭共感・制約には理由を添える・警告や規定で文章を終わらせず相談導線(公式LINE)で締める。「〜となっております」、お客様向けの「不成立」「ペナルティ」は使わない
 
 ## モデル運用

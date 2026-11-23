@@ -23,6 +23,7 @@ const REQUIRED_STRINGS = [
   'どのプランにするか迷ったら','タップでスキップ','楽しみ方は、ふたつ。',
   'og-image.jpg','rel="canonical"','summary_large_image',
   '何分前に行けばいいですか','貸切に限り',
+  'provided in Japanese only','日本語以外でのレッスンはできますか',
 ];
 // ▼▼ v22.2確定版:禁止文字列(全6ページで0件) ▼▼
 // ▼▼ v24.1で追加:旧STORESドメイン・旧ページID ▼▼
@@ -109,12 +110,14 @@ for (const f of pages) {
     checks.push([/instagram\.com\/jouer\.mahjong/.test(html), 'Instagram本番URLが見つからない']);
     checks.push([/class="grid g2"/.test(html) && !/class="grid g3"/.test(html), 'HOW TO ENJOYが2カード(grid g2)になっていない(v31)']);
     checks.push([/<span class="cl">TEL<\/span>/.test(html), 'お問い合わせ欄のTEL行が見つからない(v31)']);
+    checks.push([/class="ask-note lang-note" lang="en"/.test(html), '日本語のみ案内(英文)がindex.htmlヒーローに見つからない(v31.1)']);
   }
   if (f === 'reserve.html') {
     // v30: 予約は公式LINEのみ。診断UI・GAS送信・STORES導線は廃止
     checks.push([/href="https:\/\/lin\.ee\/qetP6h9"/.test(html), '公式LINEへの予約ボタン(lin.ee/qetP6h9)が見つからない(v30)']);
     checks.push([/公式LINEで予約する/.test(html), '「公式LINEで予約する」ボタンが見つからない(v30)']);
     checks.push([/電話で予約する\(03-6805-1928\)/.test(html), '「電話で予約する」ボタンが見つからない(v31)']);
+    checks.push([/class="ask-note lang-note" lang="en"/.test(html), '日本語のみ案内(英文)がreserve.htmlに見つからない(v31.1)']);
     checks.push([!/GAS_URL|QDATA|RDATA|rsvBody|rsvStage/.test(html), '廃止済みの予約診断UI/GAS送信コードが残存(v30)']);
     checks.push([!/PHONE_TEL/.test(html), 'PHONE_TEL機構が残存(v21で撤去済み)']);
   }
@@ -123,6 +126,7 @@ for (const f of pages) {
     checks.push([/女子会プランとレッスンの違いは何ですか/.test(html), 'FAQ「女子会プランとレッスンの違い」が見つからない(v30)']);
     checks.push([/初回の2時間無料のあとは、どうすればいいですか/.test(html), 'FAQ「初回の2時間無料のあと」が見つからない(v31)']);
     checks.push([/お電話\(03-6805-1928\)/.test(html), 'FAQ「予約は必要ですか」に電話案内が見つからない(v31)']);
+    checks.push([/日本語以外でのレッスンはできますか/.test(html) && /lang="en">Please note: all lessons and in-store assistance are provided in Japanese only\./.test(html), 'FAQ「日本語以外でのレッスン」(日本語+英文)が見つからない(v31.1)']);
     checks.push([!/キャンセルはできますか/.test(html), '撤去済みのFAQ「キャンセルはできますか」が残存(v30)']);
   }
   for (const [pass, msg] of checks) {
